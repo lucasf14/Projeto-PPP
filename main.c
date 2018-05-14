@@ -2,48 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <locale.h>
+#include "header.h"
 #define MaxTarefas 10
+
+
 
 /*
 
 Criar estrutura Data p/ fazer os prazos, datas de criação e afins
 
 */
-
-typedef struct S_Prazo{
-    int diap, mesp, anop;
-} Prazo;
-
-typedef struct S_DataConclusao{
-    int diac, mesc, anoc;
-} DataConclusao;
-
-typedef struct S_Pessoa{
-    char nomePessoa[100];
-    char mail[100];
-    int identificador;
-    struct S_Pessoa *next;
-} Pessoa;
-
-typedef struct S_Tarefa{
-    char novaTarefa[100];
-    int prioridade;
-    int identificador;
-    char desc[100];
-    Prazo prazo;
-    DataConclusao conclusao;
-    Pessoa pessoa;
-    struct S_Tarefa *next;
-} TipoTarefa;
-
-
-
-typedef struct no *List; /*isto e um ponteiro para um no*/
-
-typedef struct no{
-    TipoTarefa tarefa;
-    List next;
-}No;
 
 List addTarefa_inicio(List l, List node){
     node->next=l;
@@ -71,22 +40,22 @@ void leTarefa(TipoTarefa *tarefa){
     scanf(" %[^\n]s", tarefa->novaTarefa);
     printf("Identificador: ");
     scanf(" %d", &tarefa->identificador);
-
-    while (!scanf(" %d", &tarefa->prioridade ))
+    while (!scanf(" %d", &tarefa->identificador))
         fflush(stdin);
     printf("Prioridade (1 a 10): ");
     scanf(" %d", &tarefa->prioridade);
     while(tarefa->prioridade <= 0 || tarefa->prioridade > 10){
         while (!scanf(" %d", &tarefa->prioridade ))
-            printf("Prioridade invalida, tente novamente (1 a 10): ");
+            printf("Prioridade inválida, tente novamente (1 a 10): ");
             fflush(stdin);
     }
-    printf("Descricao da tarefa: ");
+    printf("Descrição da tarefa: ");
     scanf(" %[^\n]s", tarefa->desc);
+    printf("Pessoa a atribuir: ");
+    scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
     printf("Prazo: ");
     scanf("%d/%d/%d", &tarefa->conclusao.diac, &tarefa->conclusao.mesc, &tarefa->conclusao.anoc);
-    printf("Pessoa a atribuir: ");
-    scanf(" %[^\n]s", tarefa->pessoa.nomePessoa); /* verificar se está no ficheiro */
+ /* verificar se está no ficheiro */
 
     /*while (!scanf("%d/%d/%d", &tarefa->conclusao.diac, &tarefa->conclusao.mesc, &tarefa->conclusao.anoc)){
         printf("Prazo invalido, tente novamente (dd/mm/aaaa): ");
@@ -104,10 +73,12 @@ void printListaTarefas(List l, int num){
     int i = 1;
     printf("____________________\n", num);
     while(l!=NULL){
-        printf("\nTarefa no. %d: %s\nPrioridade: %d\nDescricao da tarefa: %s\nPrazo: %d/%d/%d", i,
+        printf("\nTarefa no. %d: %s\nPrioridade: %d\nDescrição da tarefa: %s\nPessoa responsável: %s\nPrazo: %d/%d/%d\n",
+               l->tarefa.identificador,
                l->tarefa.novaTarefa,
                l->tarefa.prioridade,
                l->tarefa.desc,
+               l->tarefa.pessoa.nomePessoa,
                l->tarefa.conclusao.diac,
                l->tarefa.conclusao.mesc,
                l->tarefa.conclusao.anoc);
@@ -118,10 +89,12 @@ void printListaTarefas(List l, int num){
 }
 
 int main(){
+
     int totalTarefas = 0;
     int comando;
     List listaTarefas, novo;
     listaTarefas = NULL;
+    setlocale(LC_ALL, "Portuguese");
     while(1){
         printf("MENU:\n[1] Definir tarefas.\n[2] Ver lista de tarefas.\n...\n[10] Sair do programa.\n\nIntroduza o comando: ");
         scanf("%d", &comando);
