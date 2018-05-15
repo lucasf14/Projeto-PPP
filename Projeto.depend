@@ -1,11 +1,18 @@
 # depslib dependency file v1.0
-1526337642 source:d:\lei\ppp 2017\projeto\main.c
+1526424028 source:d:\lei\ppp 2017\projeto\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"header.h"
+
+1526424131 d:\lei\ppp 2017\projeto\header.h
+
+1526424104 source:d:\lei\ppp 2017\projeto\menu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	<locale.h>
 	"header.h"
-
-1526336573 d:\lei\ppp 2017\projeto\header.h
 

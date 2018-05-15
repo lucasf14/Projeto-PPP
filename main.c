@@ -2,25 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <locale.h>
 #include "header.h"
 #define MaxTarefas 10
+#define MAX 1000
 
 
-
-/*
-
-Criar estrutura Data p/ fazer os prazos, datas de criação e afins
-
-*/
-
-List addTarefa_inicio(List l, List node){
+List criaListaTarefas(List l, List node){
     node->next=l;
     l=node;
     return l;
 }
 
-List addTarefa_fim(List l, List node){
+List addTarefa(List l, List node){
     List act;
     act=(List)malloc(sizeof(No));
     node->next=NULL;
@@ -39,33 +32,28 @@ void leTarefa(TipoTarefa *tarefa){
     printf("\nNome da tarefa: ");
     scanf(" %[^\n]s", tarefa->novaTarefa);
     printf("Identificador: ");
-    scanf(" %d", &tarefa->identificador);
-    while (!scanf(" %d", &tarefa->identificador))
-        fflush(stdin);
+    while(!scanf(" %d", &tarefa->identificador )){
+            printf("Identificador inválido, tente novamente: ");
+            fflush(stdin);
+    }
     printf("Prioridade (1 a 10): ");
     scanf(" %d", &tarefa->prioridade);
     while(tarefa->prioridade <= 0 || tarefa->prioridade > 10){
-        while (!scanf(" %d", &tarefa->prioridade ))
+        do{
             printf("Prioridade inválida, tente novamente (1 a 10): ");
             fflush(stdin);
+        }
+        while (!scanf(" %d", &tarefa->prioridade ));
     }
     printf("Descrição da tarefa: ");
     scanf(" %[^\n]s", tarefa->desc);
     printf("Pessoa a atribuir: ");
-    scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
+    scanf(" %[^\n]s", tarefa->pessoa.nomePessoa); /*Verificar se esta pessoa está no ficheiro */
     printf("Prazo: ");
-    scanf("%d/%d/%d", &tarefa->conclusao.diac, &tarefa->conclusao.mesc, &tarefa->conclusao.anoc);
- /* verificar se está no ficheiro */
-
-    /*while (!scanf("%d/%d/%d", &tarefa->conclusao.diac, &tarefa->conclusao.mesc, &tarefa->conclusao.anoc)){
-        printf("Prazo invalido, tente novamente (dd/mm/aaaa): ");
+    while (!scanf("%d/%d/%d", &tarefa->conclusao.diac, &tarefa->conclusao.mesc, &tarefa->conclusao.anoc)){
+        printf("Prazo inválido, tente novamente (dd/mm/aaaa): ");
         fflush(stdin);
     }
-
-    CHECK NOUTRA ALTURA
-
-    */
-
     printf("\n");
 }
 
@@ -88,46 +76,30 @@ void printListaTarefas(List l, int num){
     printf("____________________\nTotal de tarefas: %d\n\n", num);
 }
 
-int main(){
-
-    int totalTarefas = 0;
-    int comando;
-    List listaTarefas, novo;
-    listaTarefas = NULL;
-    setlocale(LC_ALL, "Portuguese");
-    while(1){
-        printf("MENU:\n[1] Definir tarefas.\n[2] Ver lista de tarefas.\n...\n[10] Sair do programa.\n\nIntroduza o comando: ");
-        scanf("%d", &comando);
-        switch(comando){
-            default:
-                printf("Comando desconhecido, tente novamente!\n");
-                break;
-            case 1:
-                if(totalTarefas < MaxTarefas){
-                    if(totalTarefas == 0){
-                        novo=(List)malloc(sizeof(No));
-                        leTarefa(&novo->tarefa);
-                        listaTarefas=addTarefa_inicio(listaTarefas, novo);
-                        totalTarefas += 1;
-                        break;
-                    }
-                    else{
-                        novo=(List)malloc(sizeof(No));
-                        leTarefa(&novo->tarefa);
-                        listaTarefas=addTarefa_fim(listaTarefas, novo);
-                        totalTarefas += 1;
-                        break;
-                    }
-                }
-                else{
-                    printf("Lista cheia!\n\n");
-                    break;
-                }
-            case 2:
-                printListaTarefas(listaTarefas, totalTarefas);
-                break;
-            case 10:
-                return 0;
-        }
+void listaPessoas(){
+    FILE *file = fopen("listapessoas.txt", "r");
+    char *nome;
+    char *email;
+    char *id;
+    char linha[MAX];
+    if(file == NULL){
+        printf("Não foi possível abrir o ficheiro.\n");
+        menu();
     }
+    printf("___________________________________________\n");
+    while(!feof(file)){
+        fgets(linha, MAX, file);
+        nome = strtok(linha, "-");
+        email = strtok(NULL, "-");
+        id = strtok(NULL, "-");
+        printf("NOME: %s\nE-MAIL: %s\nID: %s\n", nome, email, id);
+    }
+    printf("___________________________________________");
+    fclose(file);
+    printf("\n");
+}
+
+int main(){
+    menu();
+    return 0;
 }

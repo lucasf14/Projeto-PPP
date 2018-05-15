@@ -1,3 +1,11 @@
+
+
+/*
+
+Criar estrutura Data p/ fazer os prazos, datas de criação e afins
+
+*/
+
 typedef struct S_Prazo{
     int diap, mesp, anop;
 } Prazo;
@@ -32,3 +40,11 @@ typedef struct no{
     TipoTarefa tarefa;
     List next;
 }No;
+
+List addTarefa(List l, List node);
+List criaListaTarefas(List l, List node);
+void leTarefa(TipoTarefa *tarefa);
+void printListaTarefas(List l, int num);
+int protMenu();
+int menu();
+void listaPessoas();
