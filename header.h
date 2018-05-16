@@ -1,18 +1,13 @@
 
-
 /*
 
 Criar estrutura Data p/ fazer os prazos, datas de criação e afins
 
 */
 
-typedef struct S_Prazo{
-    int diap, mesp, anop;
-} Prazo;
-
-typedef struct S_DataConclusao{
-    int diac, mesc, anoc;
-} DataConclusao;
+typedef struct S_Data{
+    int dia, mes, ano;
+}TipoData;
 
 typedef struct S_Pessoa{
     char nomePessoa[100];
@@ -26,13 +21,11 @@ typedef struct S_Tarefa{
     int prioridade;
     int identificador;
     char desc[100];
-    Prazo prazo;
-    DataConclusao conclusao;
+    TipoData data_prazo;
+    TipoData data_conclusao;
     Pessoa pessoa;
     struct S_Tarefa *next;
 } TipoTarefa;
-
-
 
 typedef struct no *List; /*isto e um ponteiro para um no*/
 
