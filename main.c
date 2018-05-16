@@ -43,14 +43,14 @@ void leTarefa(TipoTarefa *tarefa){
             printf("Prioridade inválida, tente novamente (1 a 10): ");
             fflush(stdin);
         }
-        while (!scanf(" %d", &tarefa->prioridade));
+        while (!scanf(" %d", &tarefa->prioridade ));
     }
     printf("Descrição da tarefa: ");
     scanf(" %[^\n]s", tarefa->desc);
     printf("Pessoa a atribuir: ");
     scanf(" %[^\n]s", tarefa->pessoa.nomePessoa); /*Verificar se esta pessoa está no ficheiro */
     printf("Prazo: ");
-    while (!scanf("%d/%d/%d", &tarefa->data_conclusao.dia, &tarefa->data_conclusao.mes, &tarefa->data_conclusao.ano)){
+    while (!scanf("%d/%d/%d", &tarefa->conclusao.diac, &tarefa->conclusao.mesc, &tarefa->conclusao.anoc)){
         printf("Prazo inválido, tente novamente (dd/mm/aaaa): ");
         fflush(stdin);
     }
@@ -67,9 +67,9 @@ void printListaTarefas(List l, int num){
                l->tarefa.prioridade,
                l->tarefa.desc,
                l->tarefa.pessoa.nomePessoa,
-               l->tarefa.data_conclusao.dia,
-               l->tarefa.data_conclusao.mes,
-               l->tarefa.data_conclusao.ano);
+               l->tarefa.conclusao.diac,
+               l->tarefa.conclusao.mesc,
+               l->tarefa.conclusao.anoc);
         l=l->next;
         i+= 1;
     }
