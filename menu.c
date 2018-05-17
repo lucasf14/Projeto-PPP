@@ -33,11 +33,12 @@ int menu(){
     setlocale(LC_ALL, "Portuguese");
     while(1){
         printf("MENU:\n");
-        printf("[1] Definir tarefas.\n");
-        printf("[2] Ver lista de tarefas.\n");
-        printf("[3] Ver lista de pessoas.\n");
-        printf("[4] ...\n");
-        printf("[0] Sair do programa.\n");
+        printf(" [1] Criar tarefa.\n");
+        printf(" [2] Ver lista de tarefas.\n");
+        printf(" [3] Ver lista de pessoas.\n");
+        printf(" [4] Associar tarefa a pessoa.\n");
+        printf(" [5] Ver tarefas de uma pessoa.\n");
+        printf(" [0] Sair do programa.\n");
         printf("\nIntroduza o comando: ");
         comando = protMenu();
         switch(comando){
@@ -70,6 +71,12 @@ int menu(){
                 break;
             case 3:
                 listaPessoas();
+                break;
+            case 4:
+                /* associaTarefa(&novo->tarefa); */
+                break;
+            case 5:
+                printTarefasPessoa(listaTarefas, &novo->tarefa);
                 break;
             case 0:
                 return 0;
