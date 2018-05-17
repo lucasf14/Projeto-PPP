@@ -7,13 +7,13 @@
 #define MAX 1000
 
 
-List criaListaTarefas(List l, List node){
+List criaLista(List l, List node){
     node->next=l;
     l=node;
     return l;
 }
 
-List addTarefa(List l, List node){
+List addLista(List l, List node){
     List act;
     act=(List)malloc(sizeof(No));
     node->next=NULL;
@@ -150,6 +150,7 @@ void printTarefasPessoa(List l, TipoTarefa *tarefa){
     }
     printf("____________________\nTotal de tarefas: %d\n\n", i);
 }
+
 
 void listaPessoas(){
     FILE *file = fopen("listapessoas.txt", "r");

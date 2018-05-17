@@ -34,8 +34,8 @@ typedef struct no{
     List next;
 }No;
 
-List addTarefa(List l, List node);
-List criaListaTarefas(List l, List node);
+List addLista(List l, List node);
+List criaLista(List l, List node);
 void leTarefa(TipoTarefa *tarefa);
 void printListaTarefas(List l, int num);
 int protMenu();

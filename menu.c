@@ -28,8 +28,9 @@ int protMenu() {
 int menu(){
     int totalTarefas = 0;
     int comando;
-    List listaTarefas, listaPessoa, novo;
+    List listaTarefas, novo;
     listaTarefas = NULL;
+
     setlocale(LC_ALL, "Portuguese");
     while(1){
         printf("MENU:\n");
@@ -50,14 +51,14 @@ int menu(){
                     if(totalTarefas == 0){
                         novo=(List)malloc(sizeof(No));
                         leTarefa(&novo->tarefa);
-                        listaTarefas=criaListaTarefas(listaTarefas, novo);
+                        listaTarefas=criaLista(listaTarefas, novo);
                         totalTarefas += 1;
                         break;
                     }
                     else{
                         novo=(List)malloc(sizeof(No));
                         leTarefa(&novo->tarefa);
-                        listaTarefas=addTarefa(listaTarefas, novo);
+                        listaTarefas=addLista(listaTarefas, novo);
                         totalTarefas += 1;
                         break;
                     }
