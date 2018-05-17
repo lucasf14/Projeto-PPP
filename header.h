@@ -43,6 +43,6 @@ int menu();
 void listaPessoas();
 void verificaData(TipoTarefa *tarefa);
 void le_data(TipoTarefa *tarefa);
-void associaTarefa(TipoTarefa *tarefa);
+void associaTarefa(List l, TipoTarefa *tarefa);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);
 void verificaID(List l, TipoTarefa *tarefa);

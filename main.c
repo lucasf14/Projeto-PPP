@@ -73,11 +73,34 @@ void leTarefa(TipoTarefa *tarefa){
     }
     printf("Descrição da tarefa: ");
     scanf(" %[^\n]s", tarefa->desc);
+    printf("\n");
+}
+
+void associaTarefa(List l, TipoTarefa *tarefa){
+    verificaID(l, tarefa);
     printf("Pessoa a atribuir: ");
     scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
     verificaPessoaFicheiro(tarefa);
     verificaData(tarefa);
-    printf("\n");
+}
+
+void verificaID(List l, TipoTarefa *tarefa){
+    int id;
+    printf("Introduza o ID da tarefa: ");
+    scanf(" %d", &id);
+    while(l->next !=NULL){
+        printf("ID1 = %d\nID2 = %d\n\n", id, l->tarefa.identificador);
+        if(id != l->tarefa.identificador){
+            l=l->next;
+        }
+        else{
+            break;
+        }
+    }
+    if(id != l->tarefa.identificador){
+        printf("Não encontrei nada nesta lista. Tente novamente! \n");
+        verificaID(l, tarefa);
+    }
 }
 
 void printListaTarefas(List l, int num){
@@ -108,6 +131,7 @@ void printTarefasPessoa(List l, TipoTarefa *tarefa){
     printf("\n____________________\n");
     while(l!=NULL){
         ret = strcmp(l->tarefa.pessoa.nomePessoa, tarefa->pessoa.nomePessoa);
+        printf("\n\tPESSOA1: %s\n\n\tPESSOA2: %s", l->tarefa.pessoa.nomePessoa, tarefa->pessoa.nomePessoa);
         if(ret == 0){
             printf("\nTarefa no. %d: %s\nPrioridade: %d\nDescrição da tarefa: %s\nPrazo: %d/%d/%d\n",
                    l->tarefa.identificador,

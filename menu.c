@@ -28,7 +28,7 @@ int protMenu() {
 int menu(){
     int totalTarefas = 0;
     int comando;
-    List listaTarefas, novo;
+    List listaTarefas, listaPessoa, novo;
     listaTarefas = NULL;
     setlocale(LC_ALL, "Portuguese");
     while(1){
@@ -73,7 +73,7 @@ int menu(){
                 listaPessoas();
                 break;
             case 4:
-                /* associaTarefa(&novo->tarefa); */
+                associaTarefa(listaTarefas, &novo->tarefa);
                 break;
             case 5:
                 printTarefasPessoa(listaTarefas, &novo->tarefa);
