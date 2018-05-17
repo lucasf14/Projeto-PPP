@@ -20,6 +20,7 @@ typedef struct S_Tarefa{
     char novaTarefa[100];
     int prioridade;
     int identificador;
+    TipoData data_criacao;
     char desc[100];
     TipoData data_prazo;
     TipoData data_conclusao;
@@ -41,7 +42,8 @@ void printListaTarefas(List l, int num);
 int protMenu();
 int menu();
 void listaPessoas();
-void verificaData(TipoTarefa *tarefa);
+void verificaData(TipoData*data);
+void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
 void associaTarefa(List l, TipoTarefa *tarefa);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);

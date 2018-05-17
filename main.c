@@ -55,6 +55,7 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa){
 }
 
 void leTarefa(TipoTarefa *tarefa){
+    TipoData data;
     printf("\nNome da tarefa: ");
     scanf(" %[^\n]s", tarefa->novaTarefa);
     printf("Identificador: ");
@@ -62,6 +63,13 @@ void leTarefa(TipoTarefa *tarefa){
             printf("Identificador inválido, tente novamente: ");
             fflush(stdin);
     }
+
+    printf("Insira data de criacao: \n");
+    verificaData(&data);
+    tarefa->data_criacao.ano=data.ano;
+    tarefa->data_criacao.mes=data.mes;
+    tarefa->data_criacao.dia=data.dia;
+
     printf("Prioridade (1 a 10): ");
     scanf(" %d", &tarefa->prioridade);
     while(tarefa->prioridade <= 0 || tarefa->prioridade > 10){
@@ -73,6 +81,13 @@ void leTarefa(TipoTarefa *tarefa){
     }
     printf("Descrição da tarefa: ");
     scanf(" %[^\n]s", tarefa->desc);
+
+    printf("Insira data de prazo: \n");
+    verificaData(&data);
+    compara_datas(tarefa, &data);
+    tarefa->data_prazo.ano=data.ano;
+    tarefa->data_prazo.mes=data.mes;
+    tarefa->data_prazo.dia=data.dia;
     printf("\n");
 }
 
@@ -81,7 +96,7 @@ void associaTarefa(List l, TipoTarefa *tarefa){
     printf("Pessoa a atribuir: ");
     scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
     verificaPessoaFicheiro(tarefa);
-    verificaData(tarefa);
+    /*verificaData(tarefa);*/
 }
 
 void verificaID(List l, TipoTarefa *tarefa){
@@ -179,3 +194,4 @@ int main(){
     menu();
     return 0;
 }
+

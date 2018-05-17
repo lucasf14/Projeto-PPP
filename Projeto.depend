@@ -48,3 +48,25 @@
 	<stdlib.h>
 	"header.h"
 
+1526585987 source:c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\menu.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<locale.h>
+	"header.h"
+
+1526587003 c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\header.h
+
+1526586962 source:c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\verificadata.c
+	<stdio.h>
+	<stdlib.h>
+	"header.h"
+
+1526587040 source:c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"header.h"
+
