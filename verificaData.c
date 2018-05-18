@@ -193,9 +193,11 @@ void compara_datas(TipoTarefa*tarefa, TipoData*data){
                 }
             }
         }
-        printf("A data de prazo nao pode ser inferior à data de criacao.\n");
-        printf("Data de Criacao:%d/%d/%d \nInsira nova data de prazo: \n", tarefa->data_criacao.dia, tarefa->data_criacao.mes, tarefa->data_criacao.ano);
-        verificaData(data);
+        if (aux==0){
+            printf("A data de prazo nao pode ser inferior à data de criacao.\n");
+            printf("Data de Criacao:%d/%d/%d \nInsira nova data de prazo: \n", tarefa->data_criacao.dia, tarefa->data_criacao.mes, tarefa->data_criacao.ano);
+            verificaData(data);
+        }
     }
 }
 

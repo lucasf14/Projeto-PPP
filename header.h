@@ -25,6 +25,7 @@ typedef struct S_Tarefa{
     TipoData data_prazo;
     TipoData data_conclusao;
     Pessoa pessoa;
+    int fase;
     struct S_Tarefa *next;
 } TipoTarefa;
 
@@ -37,7 +38,7 @@ typedef struct no{
 
 List addLista(List l, List node);
 List criaLista(List l, List node);
-void leTarefa(TipoTarefa *tarefa);
+void leTarefa(List l, TipoTarefa *tarefa);
 void printListaTarefas(List l, int num);
 int protMenu();
 int menu();
@@ -45,6 +46,7 @@ void listaPessoas();
 void verificaData(TipoData*data);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
-void associaTarefa(List l, TipoTarefa *tarefa);
+void associaTarefa(List l, TipoTarefa *tarefa, char flag);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);
 void verificaID(List l, TipoTarefa *tarefa);
+List verificaListas(List listaToDo, List listaDoing, List listDone, List node);

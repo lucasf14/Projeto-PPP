@@ -54,8 +54,9 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa){
     fclose(file);
 }
 
-void leTarefa(TipoTarefa *tarefa){
+void leTarefa(List l, TipoTarefa *tarefa){
     TipoData data;
+    char flag = 'n';
     printf("\nNome da tarefa: ");
     scanf(" %[^\n]s", tarefa->novaTarefa);
     printf("Identificador: ");
@@ -81,6 +82,36 @@ void leTarefa(TipoTarefa *tarefa){
     }
     printf("Descrição da tarefa: ");
     scanf(" %[^\n]s", tarefa->desc);
+    printf("A que fase deseja adicionar a tarefa?\n");
+    printf("[1] To do.\n");
+    printf("[2] Doing.\n");
+    printf("Fase: ");
+    scanf(" %d", &tarefa->fase);
+    while(tarefa->fase<1 || tarefa->fase>2){
+        do{
+            printf("Fase inválida, tente novamente: ");
+            fflush(stdin);
+        }
+        while(!scanf(" %d", &tarefa->fase));
+    }
+    if (tarefa->fase==1){
+        printf("Deseja associar já a tarefa a uma pessoa? [s/n]: ");
+        scanf(" %s", &flag);
+        while(flag != 's' && flag != 'n'){
+            do{
+                printf("Resposta inválida, tente novamente [s/n]: ");
+                fflush(stdin);
+            }
+            while(!scanf(" %s", &flag));
+        }
+        if(flag == 's'){
+            associaTarefa(l, tarefa, flag);
+        }
+    }
+    else{
+        flag = 's';
+        associaTarefa(l, tarefa, flag);
+    }
 
     printf("Insira data de prazo: \n");
     verificaData(&data);
@@ -91,8 +122,10 @@ void leTarefa(TipoTarefa *tarefa){
     printf("\n");
 }
 
-void associaTarefa(List l, TipoTarefa *tarefa){
-    verificaID(l, tarefa);
+void associaTarefa(List l, TipoTarefa *tarefa, char flag){
+    if(flag == 'n'){
+        verificaID(l, tarefa);
+    }
     printf("Pessoa a atribuir: ");
     scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
     verificaPessoaFicheiro(tarefa);
@@ -122,7 +155,21 @@ void printListaTarefas(List l, int num){
     int i = 1;
     printf("____________________\n", num);
     while(l!=NULL){
-        printf("\nTarefa no. %d: %s\nPrioridade: %d\nDescrição da tarefa: %s\nPessoa responsável: %s\nPrazo: %d/%d/%d\n",
+
+        if(strcmp(l->tarefa.pessoa.nomePessoa, "") == 0){
+            printf("\nTarefa no. %d: %s\nPrioridade: %d\nDescrição da tarefa: %s\nPessoa responsável: Não tem\nPrazo: %d/%d/%d\n",
+               l->tarefa.identificador,
+               l->tarefa.novaTarefa,
+               l->tarefa.prioridade,
+               l->tarefa.desc,
+               l->tarefa.data_prazo.dia,
+               l->tarefa.data_prazo.mes,
+               l->tarefa.data_prazo.ano);
+        l=l->next;
+        i+= 1;
+        }
+        else{
+            printf("\nTarefa no. %d: %s\nPrioridade: %d\nDescrição da tarefa: %s\nPessoa responsável: %s\nPrazo: %d/%d/%d\n",
                l->tarefa.identificador,
                l->tarefa.novaTarefa,
                l->tarefa.prioridade,
@@ -131,8 +178,10 @@ void printListaTarefas(List l, int num){
                l->tarefa.data_prazo.dia,
                l->tarefa.data_prazo.mes,
                l->tarefa.data_prazo.ano);
-        l=l->next;
-        i+= 1;
+            l=l->next;
+            i+= 1;
+        }
+
     }
     printf("____________________\nTotal de tarefas: %d\n\n", num);
 }

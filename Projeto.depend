@@ -26,7 +26,7 @@
 
 1526490357 c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto_ppp\projeto\header.h
 
-1526585722 source:c:\users\lucas\desktop\projeto-ppp-master\menu.c
+1526666765 source:c:\users\lucas\desktop\projeto-ppp-master\menu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -34,16 +34,16 @@
 	<locale.h>
 	"header.h"
 
-1526584509 c:\users\lucas\desktop\projeto-ppp-master\header.h
+1526666724 c:\users\lucas\desktop\projeto-ppp-master\header.h
 
-1526584509 source:c:\users\lucas\desktop\projeto-ppp-master\main.c
+1526667114 source:c:\users\lucas\desktop\projeto-ppp-master\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"header.h"
 
-1526498226 source:c:\users\lucas\desktop\projeto-ppp-master\verificadata.c
+1526664580 source:c:\users\lucas\desktop\projeto-ppp-master\verificadata.c
 	<stdio.h>
 	<stdlib.h>
 	"header.h"
@@ -68,5 +68,10 @@
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
+	"header.h"
+
+1526666724 source:c:\users\lucas\desktop\projeto-ppp-master\verificalistas.c
+	<stdio.h>
+	<stdlib.h>
 	"header.h"
 

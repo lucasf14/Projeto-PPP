@@ -28,9 +28,12 @@ int protMenu() {
 int menu(){
     int totalTarefas = 0;
     int comando;
-    List listaTarefas, novo;
+    char flag = 'n';
+    List listaTarefas, novo, listaToDo, listaDoing, listaDone;
     listaTarefas = NULL;
-
+    listaToDo = NULL;
+    listaDoing = NULL;
+    listaDone = NULL;
     setlocale(LC_ALL, "Portuguese");
     while(1){
         printf("MENU:\n");
@@ -50,15 +53,17 @@ int menu(){
                 if(totalTarefas < MaxTarefas){
                     if(totalTarefas == 0){
                         novo=(List)malloc(sizeof(No));
-                        leTarefa(&novo->tarefa);
+                        leTarefa(listaTarefas, &novo->tarefa);
                         listaTarefas=criaLista(listaTarefas, novo);
+                        /*verificaListas(listaToDo, listaDoing, listaDone, novo);*/
                         totalTarefas += 1;
                         break;
                     }
                     else{
                         novo=(List)malloc(sizeof(No));
-                        leTarefa(&novo->tarefa);
+                        leTarefa(listaTarefas, &novo->tarefa);
                         listaTarefas=addLista(listaTarefas, novo);
+                        /*verificaListas(listaToDo, listaDoing, listaDone, novo);*/
                         totalTarefas += 1;
                         break;
                     }
@@ -74,7 +79,7 @@ int menu(){
                 listaPessoas();
                 break;
             case 4:
-                associaTarefa(listaTarefas, &novo->tarefa);
+                associaTarefa(listaTarefas, &novo->tarefa, flag);
                 break;
             case 5:
                 printTarefasPessoa(listaTarefas, &novo->tarefa);
