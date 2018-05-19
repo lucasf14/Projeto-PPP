@@ -28,6 +28,54 @@ List addLista(List l, List node){
     return l;
 }
 
+void imprime_lista(List l){
+    printf("__________________\n");
+    if (l==NULL){
+        printf("A lista de tarefas encontra-se vazia! \n");
+    }
+    else{
+        while(l!=NULL){
+            if(strcmp(l->tarefa.pessoa.nomePessoa, "") == 0){
+                printf("\nTarefa no. %d: %s\nPrioridade: %d\nData de Criação: %d/%d/%d\nDescrição da tarefa: %s\nPessoa responsável: Não tem\nPrazo: %d/%d/%d\n",
+                    l->tarefa.identificador,
+                    l->tarefa.novaTarefa,
+                    l->tarefa.prioridade,
+                    l->tarefa.data_criacao.dia,
+                    l->tarefa.data_criacao.mes,
+                    l->tarefa.data_criacao.ano,
+                    l->tarefa.desc,
+                    l->tarefa.data_prazo.dia,
+                    l->tarefa.data_prazo.mes,
+                    l->tarefa.data_prazo.ano);
+            }
+            else{
+                printf("\nTarefa no. %d: %s\nPrioridade: %d\nData de Criação: %d/%d/%d\nDescrição da tarefa: %s\nPessoa responsável: %s\nPrazo: %d/%d/%d\n",
+                    l->tarefa.identificador,
+                    l->tarefa.novaTarefa,
+                    l->tarefa.prioridade,
+                    l->tarefa.data_criacao.dia,
+                    l->tarefa.data_criacao.mes,
+                    l->tarefa.data_criacao.ano,
+                    l->tarefa.desc,
+                    l->tarefa.pessoa.nomePessoa,
+                    l->tarefa.data_prazo.dia,
+                    l->tarefa.data_prazo.mes,
+                    l->tarefa.data_prazo.ano);
+                if(l->tarefa.fase==3){
+                     printf("Data Conclusão: %d/%d/%d",
+                        l->tarefa.data_conclusao.dia,
+                        l->tarefa.data_conclusao.mes,
+                        l->tarefa.data_conclusao.ano);
+                }
+                else{
+                    printf("Data Conclusão: A tarefa ainda não se encontra concluída.\n");
+
+                }
+            }
+        }
+        printf("__________________\n");
+    }
+}
 
 void verificaPessoaFicheiro(TipoTarefa *tarefa){
     FILE *file = fopen("listapessoas.txt", "r");
@@ -57,6 +105,7 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa){
 void leTarefa(List l, TipoTarefa *tarefa){
     TipoData data;
     char flag = 'n';
+    int id;
     printf("\nNome da tarefa: ");
     scanf(" %[^\n]s", tarefa->novaTarefa);
     printf("Identificador: ");
@@ -64,7 +113,7 @@ void leTarefa(List l, TipoTarefa *tarefa){
             printf("Identificador inválido, tente novamente: ");
             fflush(stdin);
     }
-
+    id = tarefa->identificador;
     printf("Insira data de criacao: \n");
     verificaData(&data);
     tarefa->data_criacao.ano=data.ano;
@@ -85,9 +134,10 @@ void leTarefa(List l, TipoTarefa *tarefa){
     printf("A que fase deseja adicionar a tarefa?\n");
     printf("[1] To do.\n");
     printf("[2] Doing.\n");
+    printf("[3] Done.\n");
     printf("Fase: ");
     scanf(" %d", &tarefa->fase);
-    while(tarefa->fase<1 || tarefa->fase>2){
+    while(tarefa->fase<1 || tarefa->fase>3){
         do{
             printf("Fase inválida, tente novamente: ");
             fflush(stdin);
@@ -105,14 +155,13 @@ void leTarefa(List l, TipoTarefa *tarefa){
             while(!scanf(" %s", &flag));
         }
         if(flag == 's'){
-            associaTarefa(l, tarefa, flag);
+            associaTarefa(l, tarefa, flag, id);
         }
     }
     else{
         flag = 's';
-        associaTarefa(l, tarefa, flag);
+        associaTarefa(l, tarefa, flag, id);
     }
-
     printf("Insira data de prazo: \n");
     verificaData(&data);
     compara_datas(tarefa, &data);
@@ -122,7 +171,7 @@ void leTarefa(List l, TipoTarefa *tarefa){
     printf("\n");
 }
 
-void associaTarefa(List l, TipoTarefa *tarefa, char flag){
+void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id){
     if(flag == 'n'){
         verificaID(l, tarefa);
     }
@@ -153,7 +202,7 @@ void verificaID(List l, TipoTarefa *tarefa){
 
 void printListaTarefas(List l, int num){
     int i = 1;
-    printf("____________________\n", num);
+    printf("____________________\n");
     while(l!=NULL){
 
         if(strcmp(l->tarefa.pessoa.nomePessoa, "") == 0){

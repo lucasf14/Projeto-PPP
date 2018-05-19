@@ -2,7 +2,22 @@
 #include <stdlib.h>
 #include "header.h"
 
-List verificaListas(List listaToDo, List listaDoing, List listDone, List node){
-
-
+void verificaListas(List listaToDo, List listaDoing, List node){
+    if (node->tarefa.fase==1){
+        if (listaToDo==NULL){
+            listaToDo=criaLista(listaToDo, node);
+        }
+        else{
+            listaToDo=addLista(listaToDo, node);
+        }
+    }
+    else{
+        if (listaDoing==NULL){
+            listaDoing=criaLista(listaDoing, node);
+        }
+        else{
+            listaDoing=addLista(listaDoing, node);
+        }
+    }
 }
+

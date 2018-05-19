@@ -1,4 +1,3 @@
-
 /*
 
 Criar estrutura Data p/ fazer os prazos, datas de criação e afins
@@ -39,14 +38,16 @@ typedef struct no{
 List addLista(List l, List node);
 List criaLista(List l, List node);
 void leTarefa(List l, TipoTarefa *tarefa);
-void printListaTarefas(List l, int num);
+void printListas(List l);
 int protMenu();
 int menu();
 void listaPessoas();
 void verificaData(TipoData*data);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
-void associaTarefa(List l, TipoTarefa *tarefa, char flag);
+void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);
 void verificaID(List l, TipoTarefa *tarefa);
-List verificaListas(List listaToDo, List listaDoing, List listDone, List node);
+void verificaListas(List listaToDo, List listaDoing, List node);
+void imprime_lista(List l);
+void procuraLista(List l, TipoTarefa *tarefa, int id);
