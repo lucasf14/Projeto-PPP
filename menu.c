@@ -29,7 +29,7 @@ int menu(){
     int totalTarefas = 0;
     int comando;
     char flag = 'n';
-    List listaTarefas, novo, listaToDo, listaDoing, aux;
+    List listaTarefas, novo, listaToDo, listaDoing;
     listaTarefas = NULL;
     listaToDo = NULL;
     listaDoing = NULL;
@@ -51,32 +51,38 @@ int menu(){
                 break;
             case 1:
                 if(totalTarefas < MaxTarefas){
-                    if(listaTarefas == NULL){
-                        novo=(List)malloc(sizeof(No));
-                        aux=(List)malloc(sizeof(No));
-                        leTarefa(listaTarefas, &novo->tarefa);
-                        aux=novo;
-                        listaTarefas=criaLista(listaTarefas, novo);
-                        verificaListas(listaToDo, listaDoing, aux);
-                        totalTarefas += 1;
-                        break;
+                    novo=(List)malloc(sizeof(No));
+                    leTarefa(listaTarefas, &novo->tarefa);
+                    if (novo->tarefa.fase==1){
+                        if (listaToDo==NULL){
+                            listaToDo=criaLista(listaToDo, novo);
+                        }
+                        else{
+                            listaToDo=addLista(listaToDo, novo);
+                        }
                     }
-                    else{
-                        novo=(List)malloc(sizeof(No));
-                        leTarefa(listaTarefas, &novo->tarefa);
-                        listaTarefas=addLista(listaTarefas, novo);
-                        verificaListas(listaToDo, listaDoing, aux);
-                        totalTarefas += 1;
-                        break;
+                    else if (novo->tarefa.fase==2){
+                        if (listaDoing==NULL){
+                            listaDoing=criaLista(listaDoing, novo);
+                        }
+                        else{
+                            listaDoing=addLista(listaDoing, novo);
+                        }
                     }
+                    totalTarefas += 1;
+                    break;
                 }
                 else{
                     printf("Lista cheia!\n\n");
                     break;
                 }
             case 2:
-                printf("Lista de Tarefas:\n");
-                imprime_lista(listaTarefas);
+                /*printf("Lista de Tarefas:\n");
+                imprime_lista(listaTarefas);*/
+                printf("Lista de tarefas To Do:\n");
+                imprime_lista(listaToDo);
+                printf("Lista tarefas doing:\n");
+                imprime_lista(listaDoing);
                 break;
             case 3:
                 listaPessoas();

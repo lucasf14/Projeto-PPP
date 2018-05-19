@@ -47,6 +47,7 @@ void imprime_lista(List l){
                     l->tarefa.data_prazo.dia,
                     l->tarefa.data_prazo.mes,
                     l->tarefa.data_prazo.ano);
+                l=l->next;
             }
             else{
                 printf("\nTarefa no. %d: %s\nPrioridade: %d\nData de Criação: %d/%d/%d\nDescrição da tarefa: %s\nPessoa responsável: %s\nPrazo: %d/%d/%d\n",
@@ -67,13 +68,14 @@ void imprime_lista(List l){
                         l->tarefa.data_conclusao.mes,
                         l->tarefa.data_conclusao.ano);
                 }
-                else{
+                else if (l->tarefa.fase==2){
                     printf("Data Conclusão: A tarefa ainda não se encontra concluída.\n");
 
                 }
+            l=l->next;
             }
-        }
         printf("__________________\n");
+        }
     }
 }
 

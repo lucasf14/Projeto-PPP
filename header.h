@@ -48,6 +48,5 @@ void le_data(TipoTarefa *tarefa);
 void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);
 void verificaID(List l, TipoTarefa *tarefa);
-void verificaListas(List listaToDo, List listaDoing, List node);
 void imprime_lista(List l);
 void procuraLista(List l, TipoTarefa *tarefa, int id);
