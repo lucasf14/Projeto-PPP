@@ -177,10 +177,27 @@ void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id){
     if(flag == 'n'){
         verificaID(l, tarefa);
     }
+    procuraLista(l, tarefa, id);
     printf("Pessoa a atribuir: ");
     scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
     verificaPessoaFicheiro(tarefa);
     /*verificaData(tarefa);*/
+}
+
+void procuraLista(List l, TipoTarefa *tarefa, int id){
+     while(l->next !=NULL){
+        printf("ID1 = %d\nID2 = %d\n\n", tarefa->identificador, l->tarefa.identificador);
+        if(id != l->tarefa.identificador){
+            l=l->next;
+        }
+        else{
+            /*tarefa->pessoa.nomePessoa = l->tarefa.pessoa.nomePessoa;*/
+            break;
+        }
+    }
+    if(id != l->tarefa.identificador){
+        printf("Não encontrei nada nesta lista. Tente novamente! \n");
+    }
 }
 
 void verificaID(List l, TipoTarefa *tarefa){

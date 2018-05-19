@@ -7,23 +7,6 @@
 #define MaxTarefas 10
 #define MAX 100
 
-int protMenu() {
-    char str[MAX];
-    while (scanf(" %[^\n]", str) ) {
-        int i = 0;
-        int len = strlen(str);
-        while (i < len) {
-            if (str[i] < '0' || str[i] > '9' || i > 0) {
-                printf("Comando desconhecido, tente novamente: ");
-                protMenu();
-            }
-            i++;
-        }
-    break;
-    }
-    return atoi(str);
-}
-
 
 int menu(){
     int totalTarefas = 0;

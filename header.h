@@ -40,6 +40,7 @@ List criaLista(List l, List node);
 void leTarefa(List l, TipoTarefa *tarefa);
 void printListas(List l);
 int protMenu();
+char *protString();
 int menu();
 void listaPessoas();
 void verificaData(TipoData*data);

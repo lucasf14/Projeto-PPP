@@ -38,10 +38,10 @@
 		<Unit filename="menu.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="verificaData.c">
+		<Unit filename="protecoes.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="verificaListas.c">
+		<Unit filename="verificaData.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

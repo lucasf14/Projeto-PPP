@@ -26,7 +26,7 @@
 
 1526490357 c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto_ppp\projeto\header.h
 
-1526666765 source:c:\users\lucas\desktop\projeto-ppp-master\menu.c
+1526761789 source:c:\users\lucas\desktop\projeto-ppp-master\menu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -34,16 +34,16 @@
 	<locale.h>
 	"header.h"
 
-1526666724 c:\users\lucas\desktop\projeto-ppp-master\header.h
+1526761757 c:\users\lucas\desktop\projeto-ppp-master\header.h
 
-1526667114 source:c:\users\lucas\desktop\projeto-ppp-master\main.c
+1526761588 source:c:\users\lucas\desktop\projeto-ppp-master\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"header.h"
 
-1526664580 source:c:\users\lucas\desktop\projeto-ppp-master\verificadata.c
+1526755909 source:c:\users\lucas\desktop\projeto-ppp-master\verificadata.c
 	<stdio.h>
 	<stdlib.h>
 	"header.h"
@@ -70,21 +70,21 @@
 	<ctype.h>
 	"header.h"
 
-1526666724 source:c:\users\lucas\desktop\projeto-ppp-master\verificalistas.c
+1526755909 source:c:\users\lucas\desktop\projeto-ppp-master\verificalistas.c
 	<stdio.h>
 	<stdlib.h>
 	"header.h"
 
-1526759530 source:c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\main.c
+1526754106 source:c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"header.h"
 
-1526760127 c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\header.h
+1526754017 c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\header.h
 
-1526760127 source:c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\menu.c
+1526754138 source:c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\menu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -97,8 +97,16 @@
 	<stdlib.h>
 	"header.h"
 
-1526760127 source:c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\verificalistas.c
+1526749803 source:c:\users\cátia\oli\1 ano eng. informática\2 semestre\princípios da programação procedimental\archive\projeto-ppp-master (2)\projeto-ppp-master\projeto-ppp-master\verificalistas.c
 	<stdio.h>
 	<stdlib.h>
+	"header.h"
+
+1526760964 source:c:\users\lucas\desktop\projeto-ppp-master\protecoes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<locale.h>
 	"header.h"
 
