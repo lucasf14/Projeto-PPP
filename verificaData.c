@@ -6,29 +6,20 @@
 void verificaData(TipoData*data){
     int num_dias;
     printf("Ano:");
-    while (!scanf(" %d", &data->ano)){
-        printf("Ano inválido, tente novamente: ");
-        fflush(stdin);
-    }
+    data->ano = protInteiro();
     printf("\n Escolha o mês: \n 1->janeiro \t 2->fevereiro \t 3->marco \n 4->abril \t 5->maio \t 6->junho \n 7->julho \t 8->agosto \t 9->setembro \n 10->outubro \t 11->novembro \t 12->dezembro \n");
     printf("Mês:");
-    scanf(" %d", &data->mes);
+    data->mes = protInteiro();
     while(data->mes>12 || data->mes<1){
-        do{
-            printf("Mês inválido, tente novamente: ");
-            fflush(stdin);
-        }
-        while (!scanf(" %d", &data->mes));
+        printf("Mês inválido, tente novamente: ");
+        data->mes = protInteiro();
     }
     if(data->mes==1 || data->mes==3 || data->mes==5 || data->mes==7 || data->mes==8 || data->mes==10 || data->mes==12){
             printf("Dia:");
-            scanf(" %d", &data->dia);
+            data->dia = protInteiro();
             while(data->dia>31 || data->dia<1){
-                do{
                     printf("O mês tem no máximo 31 dias. Tente Novamente: ");
-                    fflush(stdin);
-                   }
-                while (!scanf(" %d", &data->dia));
+                    data->dia = protInteiro();
             }
     }
     if (data->mes==2){
@@ -39,24 +30,18 @@ void verificaData(TipoData*data){
                 num_dias=28;
             }
             printf("Dia:");
-            scanf(" %d", &data->dia);
+            data->dia = protInteiro();
             while(data->dia>num_dias || data->dia<1){
-                do{
-                    printf("O mês têm no máximo %d dias. Tente novamente: ", num_dias);
-                    fflush(stdin);
-                }
-                while (!scanf(" %d", &data->dia));
+                    printf("O mês tem no máximo %d dias. Tente Novamente: ");
+                    data->dia = protInteiro();
             }
     }
     if(data->mes==4 || data->mes==6 || data->mes==9 || data->mes==11){
             printf("Dia:");
-            scanf(" %d", &data->dia);
-            while(data->dia>31 || data->dia<1){
-                do{
-                    printf("O mês tem no máximo 31 dias. Tente Novamente: ");
-                    fflush(stdin);
-                }
-                while (!scanf(" %d", &data->dia));
+            data->dia = protInteiro();
+            while(data->dia>30 || data->dia<1){
+                    printf("O mês tem no máximo 30 dias. Tente Novamente: ");
+                    data->dia = protInteiro();
             }
     }
 }

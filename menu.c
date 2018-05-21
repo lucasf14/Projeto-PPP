@@ -12,10 +12,11 @@ int menu(){
     int totalTarefas = 0;
     int comando;
     char flag = 'n';
-    List listaTarefas, novo, listaToDo, listaDoing;
-    listaTarefas = NULL;
+    List listaTarefas, novo, listaToDo, listaDoing, listaDone;
+    listaTarefas = NULL; /* se não for necessária no fim, apagar */
     listaToDo = NULL;
     listaDoing = NULL;
+    listaDone = NULL;
     setlocale(LC_ALL, "Portuguese");
     while(1){
         printf("MENU:\n");
@@ -28,9 +29,14 @@ int menu(){
         printf(" [0] Sair do programa.\n");
         printf("\nIntroduza o comando: ");
         comando = protMenu();
+        while(comando < 1 || comando > 10){
+            printf("Comando desconhecido, tente novamente: ");
+            comando = protMenu();
+        }
         switch(comando){
             default:
-                printf("Comando inválido, tente novamente: ");
+                printf("Comando desconhecido, tente novamente: ");
+                comando = protMenu();
                 break;
             case 1:
                 if(totalTarefas < MaxTarefas){
@@ -52,6 +58,14 @@ int menu(){
                             listaDoing=addLista(listaDoing, novo);
                         }
                     }
+                    else{
+                        if (listaDone==NULL){
+                            listaDone=criaLista(listaDone, novo);
+                        }
+                        else{
+                            listaDone=addLista(listaDone, novo);
+                        }
+                    }
                     totalTarefas += 1;
                     break;
                 }
@@ -60,26 +74,24 @@ int menu(){
                     break;
                 }
             case 2:
-                /*printf("Lista de Tarefas:\n");
-                imprime_lista(listaTarefas);*/
-                printf("Lista de tarefas To Do:\n");
+                printf("Lista de tarefas \"To Do\":\n");
                 imprime_lista(listaToDo);
-                printf("Lista tarefas doing:\n");
+                printf("Lista de tarefas \"Doing\":\n");
                 imprime_lista(listaDoing);
+                /* alterar a função p imprimir os dados da Done */
                 break;
             case 3:
                 listaPessoas();
                 break;
             case 4:
-                associaTarefa(listaTarefas, &novo->tarefa, flag, novo->tarefa.identificador);
+                associaTarefa(listaToDo, &novo->tarefa, flag, novo->tarefa.identificador); /* Fazer para todas as listas */
                 break;
             case 5:
-                printTarefasPessoa(listaTarefas, &novo->tarefa);
+                printTarefasPessoa(listaTarefas, &novo->tarefa); /*esta está incorreta */
                 break;
             case 6:
-                /*print_listas(listaToDo, listaDoing);*/
                 break;
-            case 0:
+            case 10:
                 return 0;
         }
     }
