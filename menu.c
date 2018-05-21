@@ -5,13 +5,13 @@
 #include <locale.h>
 #include "header.h"
 #define MaxTarefas 10
-#define MAX 100
+#define MAX 1000
 
 
 int menu(){
     int totalTarefas = 0;
     int comando;
-    char flag = 'n';
+    char *flag = "n";
     List listaTarefas, novo, listaToDo, listaDoing, listaDone;
     listaTarefas = NULL; /* se não for necessária no fim, apagar */
     listaToDo = NULL;
@@ -74,11 +74,12 @@ int menu(){
                     break;
                 }
             case 2:
-                printf("Lista de tarefas \"To Do\":\n");
+                printf("\nLista de tarefas \"To Do\":\n");
                 imprime_lista(listaToDo);
-                printf("Lista de tarefas \"Doing\":\n");
+                printf("\nLista de tarefas \"Doing\":\n");
                 imprime_lista(listaDoing);
-                /* alterar a função p imprimir os dados da Done */
+                printf("\nLista de tarefas \"Done\":\n");
+                imprime_lista(listaDone);
                 break;
             case 3:
                 listaPessoas();
@@ -87,7 +88,7 @@ int menu(){
                 associaTarefa(listaToDo, &novo->tarefa, flag, novo->tarefa.identificador); /* Fazer para todas as listas */
                 break;
             case 5:
-                printTarefasPessoa(listaTarefas, &novo->tarefa); /*esta está incorreta */
+                printTarefasPessoa(listaTarefas, &novo->tarefa);                                        /*esta está incorreta */
                 break;
             case 6:
                 break;

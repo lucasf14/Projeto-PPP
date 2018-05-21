@@ -29,13 +29,14 @@ List addLista(List l, List node){
 }
 
 void imprime_lista(List l){
-    printf("__________________\n");
+    printf("___________________________________________\n");
     if (l==NULL){
-        printf("A lista de tarefas encontra-se vazia! \n");
+        printf("Esta lista encontra-se vazia! \n");
+        printf("___________________________________________\n");
     }
     else{
         while(l!=NULL){
-            if(strcmp(l->tarefa.pessoa.nomePessoa, "") == 0){
+            if(l->tarefa.pessoa.nomePessoa == '\0'){
                 printf("\nTarefa no. %d: %s\nPrioridade: %d\nData de Criação: %d/%d/%d\nDescrição da tarefa: %s\nPessoa responsável: Não tem\nPrazo: %d/%d/%d\n",
                     l->tarefa.identificador,
                     l->tarefa.novaTarefa,
@@ -63,7 +64,7 @@ void imprime_lista(List l){
                     l->tarefa.data_prazo.mes,
                     l->tarefa.data_prazo.ano);
                 if(l->tarefa.fase==3){
-                     printf("Data Conclusão: %d/%d/%d",
+                     printf("Data Conclusão: %d/%d/%d\n",
                         l->tarefa.data_conclusao.dia,
                         l->tarefa.data_conclusao.mes,
                         l->tarefa.data_conclusao.ano);
@@ -74,7 +75,7 @@ void imprime_lista(List l){
                 }
             l=l->next;
             }
-        printf("__________________\n");
+    printf("___________________________________________\n");
         }
     }
 }
@@ -98,7 +99,7 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa){
     }
     if(ret != 0){
         printf("A pessoa introduzida não existe. Tente novamente: ");
-        scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
+        tarefa->pessoa.nomePessoa = protString();
         verificaPessoaFicheiro(tarefa);
     }
     fclose(file);
@@ -106,7 +107,7 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa){
 
 void leTarefa(List l, TipoTarefa *tarefa){
     TipoData data;
-    char flag = 'n';
+    char *flag = "n";
     printf("\nNome da tarefa: ");
     scanf(" %[^\n]s", tarefa->novaTarefa);
     printf("Identificador: ");
@@ -135,23 +136,25 @@ void leTarefa(List l, TipoTarefa *tarefa){
     }
     if (tarefa->fase==1){
         printf("Deseja associar já a tarefa a uma pessoa? [s/n]: ");
-        scanf(" %s", &flag);
-        while(flag != 's' && flag != 'n'){
-            do{
-                printf("Resposta inválida, tente novamente [s/n]: ");
-                fflush(stdin);
-            }
-            while(!scanf(" %s", &flag));
+        flag = protString();
+        while(flag[0] != 's' && flag[0] != 'n'){
+            printf("Resposta inválida, tente novamente [s/n]: ");
+            flag = protString();
         }
-        if(flag == 's'){
+        if(flag[0] == 's'){
             printf("Pessoa a atribuir: ");
-            scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
+            tarefa->pessoa.nomePessoa = protString();
+            verificaPessoaFicheiro(tarefa);
         }
     }
-    else{
+    else if(tarefa->fase==2){
         printf("Pessoa a atribuir: ");
-        scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
+        tarefa->pessoa.nomePessoa = protString();
+        verificaPessoaFicheiro(tarefa);
     }
+
+    /* estruturar fase 3 */
+
     printf("Insira data de prazo: \n");
     verificaData(&data);
     compara_datas(tarefa, &data);
@@ -161,8 +164,8 @@ void leTarefa(List l, TipoTarefa *tarefa){
     printf("\n");
 }
 
-void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id){
-    if(flag == 'n'){
+void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id){
+    if(flag[0] == 'n'){
         id = verificaID(l, tarefa);
     }
     while(l != NULL){
@@ -171,10 +174,11 @@ void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id){
         }
         else{
             printf("Pessoa a atribuir: ");
-            scanf(" %[^\n]s", l->tarefa.pessoa.nomePessoa);
+            tarefa->pessoa.nomePessoa = protString();
+            verificaPessoaFicheiro(tarefa);
             break;
         }
-    };
+    }
 }
 
 int verificaID(List l, TipoTarefa *tarefa){

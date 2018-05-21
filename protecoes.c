@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <locale.h>
 #include "header.h"
-#define MAX 100
+#define MAX 1000
 
 int protMenu() {
     char *string = (char *) malloc(MAX * sizeof(char));

@@ -3,7 +3,7 @@ typedef struct S_Data{
 }TipoData;
 
 typedef struct S_Pessoa{
-    char nomePessoa[100];
+    char *nomePessoa;
     char mail[100];
     int identificador;
     struct S_Pessoa *next;
@@ -43,7 +43,7 @@ void listaPessoas();
 void verificaData(TipoData*data);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
-void associaTarefa(List l, TipoTarefa *tarefa, char flag, int id);
+void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);
 int verificaID(List l, TipoTarefa *tarefa);
 void imprime_lista(List l);

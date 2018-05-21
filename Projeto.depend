@@ -26,7 +26,7 @@
 
 1526490357 c:\users\cátia\oli\2 semestre\princípios da programação procedimental\archive\projeto_ppp\projeto\header.h
 
-1526875776 source:c:\users\lucas\desktop\projeto-ppp-master\menu.c
+1526921354 source:c:\users\lucas\desktop\projeto-ppp-master\menu.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -34,9 +34,9 @@
 	<locale.h>
 	"header.h"
 
-1526875814 c:\users\lucas\desktop\projeto-ppp-master\header.h
+1526883723 c:\users\lucas\desktop\projeto-ppp-master\header.h
 
-1526875799 source:c:\users\lucas\desktop\projeto-ppp-master\main.c
+1526884030 source:c:\users\lucas\desktop\projeto-ppp-master\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -102,7 +102,7 @@
 	<stdlib.h>
 	"header.h"
 
-1526875776 source:c:\users\lucas\desktop\projeto-ppp-master\protecoes.c
+1526921139 source:c:\users\lucas\desktop\projeto-ppp-master\protecoes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
