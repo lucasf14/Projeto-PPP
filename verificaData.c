@@ -32,7 +32,7 @@ void verificaData(TipoData*data){
             printf("Dia:");
             data->dia = protInteiro();
             while(data->dia>num_dias || data->dia<1){
-                    printf("O mês tem no máximo %d dias. Tente Novamente: ");
+                    printf("O mês tem no máximo %d dias. Tente Novamente: ", num_dias);
                     data->dia = protInteiro();
             }
     }
@@ -69,5 +69,7 @@ void compara_datas(TipoTarefa*tarefa, TipoData*data){
         }
     }
 }
+
+
 
 

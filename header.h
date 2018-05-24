@@ -4,17 +4,16 @@ typedef struct S_Data{
 
 typedef struct S_Pessoa{
     char *nomePessoa;
-    char mail[100];
+    char *mail;
     int identificador;
     struct S_Pessoa *next;
 } Pessoa;
 
 typedef struct S_Tarefa{
-    char novaTarefa[100];
     int prioridade;
     int identificador;
     TipoData data_criacao;
-    char desc[100];
+    char *desc;
     TipoData data_prazo;
     TipoData data_conclusao;
     Pessoa pessoa;
@@ -33,6 +32,11 @@ typedef struct no{
 
 List addLista(List l, List node);
 List criaLista(List l, List node);
+List addListaOrdenado(List l, List node);
+int comparaMaiorPrioridade(List fonte, List destino);
+int comparaMaiorData(List data1, List data2);
+void procura_lista(List l, int identificador, List ant, List seg, List atual);
+void mover_tarefas(List listaToDo, List listaDoing, List listaDone, TipoTarefa*tarefa);
 void leTarefa(List l, TipoTarefa *tarefa);
 void printListas(List l);
 int protMenu();
@@ -41,6 +45,7 @@ int protInteiro();
 int menu();
 void listaPessoas();
 void verificaData(TipoData*data);
+void verificaPessoaFicheiro(TipoTarefa *tarefa);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
 void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id);
