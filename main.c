@@ -14,41 +14,41 @@ List criaLista(List l, List node){
 }
 
 List addLista(List l, List node){
-    List act;
-    act=(List)malloc(sizeof(No));
+    List cur;
+    cur=(List)malloc(sizeof(No));
     node->next=NULL;
-    act=l;
-    if(act==NULL){
-        act=node;
+    cur=l;
+    if(cur==NULL){
+        cur=node;
     }
-    while(act->next!=NULL){
-        act=act->next;
+    while(cur->next!=NULL){
+        cur=cur->next;
     }
-    act->next=node;
+    cur->next=node;
     return l;
 }
 
 List addListaOrdenado(List l, List node){
     int num;
-    List act;
+    List cur;
     List seg;
     node->next=NULL;
-    act=NULL;
+    cur=NULL;
     seg = l;
     num = comparaMaiorPrioridade(l, node);
     if(num == -1){
         node->next = l;
         return node;
     }
-    act = l;
+    cur = l;
     seg = l->next;
     num = comparaMaiorPrioridade(seg, node);
     while(num > -1 && seg != NULL){
-        act = act->next;
+        cur = cur->next;
         seg = seg->next;
         num = comparaMaiorPrioridade(seg, node);
     }
-    act ->next = node;
+    cur->next = node;
     node->next = seg;
     return l;
 }
@@ -99,6 +99,50 @@ int comparaMaiorData(List data1, List data2){
         }
     }
 }
+
+void verificaIdentificador(List l, TipoTarefa *tarefa){
+    while(l != NULL){
+        if(l->tarefa.identificador != tarefa->identificador){
+            l=l->next;
+        }
+        else{
+            printf("O identificador inserido já se encontra utilizado. Tente novamente: ");
+            tarefa->identificador = protInteiro();
+            if(tarefa->identificador == 0){
+                free(tarefa);
+                menu();
+            }
+            verificaIdentificador(l, tarefa);
+        }
+    }
+}
+
+List eliminaTarefa(List l){
+    int id;
+    List temp, prev;
+    temp = l;
+    prev = NULL;
+    printf("Introduza o ID da tarefa a eliminar: ");
+    id = protInteiro();
+    if(id == 0){
+        menu();
+    }
+    while (temp->tarefa.identificador != id && temp->next != NULL){
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp->tarefa.identificador == id){
+        if (prev){
+            prev->next = temp->next;
+        }
+        else{
+            l = temp->next;
+        }
+        free(temp);
+    }
+    return l;
+}
+
 
 void mover_tarefas(List listaToDo, List listaDoing, List listaDone, TipoTarefa*tarefa){
     int fase, identificador;
@@ -223,12 +267,13 @@ void leTarefa(List l, TipoTarefa *tarefa){
     char *flag = "n";
     printf("Identificador: ");
     tarefa->identificador = protInteiro();
+    verificaIdentificador(l, tarefa);
     if(tarefa->identificador == 0){
         free(tarefa);
         menu();
     }
     printf("Insira data de criação: \n");
-    verificaData(&data);
+    verificaData(&data, tarefa);
     tarefa->data_criacao.ano=data.ano;
     tarefa->data_criacao.mes=data.mes;
     tarefa->data_criacao.dia=data.dia;
@@ -247,60 +292,37 @@ void leTarefa(List l, TipoTarefa *tarefa){
         }
     }
     printf("Descrição da tarefa: ");
-    scanf(" %[^\n]s", tarefa->desc);
+    tarefa->desc = protString();
     if(strcmp(tarefa->desc, "quit") == 0){
         free(tarefa);
         menu();
     }
-    printf("A que fase deseja adicionar a tarefa?\n");
-    printf("[1] To do.\n");
-    printf("[2] Doing.\n");
-    printf("[3] Done.\n");
-    printf("Fase: ");
-    tarefa->fase = protInteiro();
-    if(tarefa->fase == 0){
+    tarefa->fase = 1;
+    printf("Deseja associar já a tarefa a uma pessoa? [s/n]: ");
+    flag = protString();
+    if(strcmp(flag, "quit") == 0){
         free(tarefa);
         menu();
     }
-    while(tarefa->fase<1 || tarefa->fase>3){
-        printf("Fase inválida, tente novamente (1 a 3): ");
-        tarefa->fase = protInteiro();
-    }
-    if (tarefa->fase==1){
-        printf("Deseja associar já a tarefa a uma pessoa? [s/n]: ");
+    while(flag[0] != 's' && flag[0] != 'n'){
+        printf("Resposta inválida, tente novamente [s/n]: ");
         flag = protString();
         if(strcmp(flag, "quit") == 0){
             free(tarefa);
             menu();
         }
-        while(flag[0] != 's' && flag[0] != 'n'){
-            printf("Resposta inválida, tente novamente [s/n]: ");
-            flag = protString();
-            if(strcmp(flag, "quit") == 0){
-                free(tarefa);
-                menu();
-            }
-        }
-        if(flag[0] == 's'){
-            printf("Pessoa a atribuir: ");
-            tarefa->pessoa.nomePessoa = protString();
-            if(strcmp(tarefa->pessoa.nomePessoa, "quit") == 0){
-                free(tarefa);
-                menu();
-            }
-            verificaPessoaFicheiro(tarefa);
-        }
     }
-    else if(tarefa->fase==2){
+    if(flag[0] == 's'){
         printf("Pessoa a atribuir: ");
         tarefa->pessoa.nomePessoa = protString();
+        if(strcmp(tarefa->pessoa.nomePessoa, "quit") == 0){
+            free(tarefa);
+            menu();
+        }
         verificaPessoaFicheiro(tarefa);
     }
-
-    /* estruturar fase 3 */
-
     printf("Insira data de prazo: \n");
-    verificaData(&data);
+    verificaData(&data, tarefa);
     compara_datas(tarefa, &data);
     tarefa->data_prazo.ano=data.ano;
     tarefa->data_prazo.mes=data.mes;
@@ -326,19 +348,18 @@ void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id){
 }
 
 int verificaID(List l, TipoTarefa *tarefa){
-    List copia = l;
     int id;
     printf("Introduza o ID da tarefa: ");
     id = protInteiro();
-    while(copia != NULL){
-        if(id != copia->tarefa.identificador){
-            copia=copia->next;
+    while(l != NULL){
+        if(id != l->tarefa.identificador){
+            l=l->next;
         }
         else{
             return id;
         }
     }
-    if(id != copia->tarefa.identificador){
+    if(id != l->tarefa.identificador){
         printf("Não encontrei nada nesta lista. Tente novamente! \n");
         verificaID(l, tarefa);
     }

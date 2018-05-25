@@ -41,29 +41,13 @@ int menu(){
                 break;
             case 1:
                 novo=(List)malloc(sizeof(No));
-                leTarefa(listaTarefas, &novo->tarefa);
+                leTarefa(listaToDo, &novo->tarefa);
                 if (novo->tarefa.fase==1){
                     if(listaToDo==NULL){
                         listaToDo=criaLista(listaToDo, novo);
                     }
                     else{
                         listaToDo=addListaOrdenado(listaToDo, novo);
-                    }
-                }
-                else if (novo->tarefa.fase==2){
-                    if (listaDoing==NULL){
-                        listaDoing=criaLista(listaDoing, novo);
-                    }
-                    else{
-                        listaDoing=addLista(listaDoing, novo);
-                    }
-                }
-                else{
-                    if (listaDone==NULL){
-                        listaDone=criaLista(listaDone, novo);
-                    }
-                    else{
-                        listaDone=addLista(listaDone, novo);
                     }
                 }
                 totalTarefas += 1;
@@ -87,6 +71,9 @@ int menu(){
                 break;
             case 6:
                 mover_tarefas(listaToDo, listaDoing, listaDone, &novo->tarefa);
+                break;
+            case 7:
+                eliminaTarefa(listaToDo);
                 break;
             case 9:
                  system("cls");

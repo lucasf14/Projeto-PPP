@@ -44,7 +44,8 @@ char *protString();
 int protInteiro();
 int menu();
 void listaPessoas();
-void verificaData(TipoData*data);
+void verificaData(TipoData*data, TipoTarefa *tarefa);
+void verificaIdentificador(List l, TipoTarefa *tarefa);
 void verificaPessoaFicheiro(TipoTarefa *tarefa);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
@@ -52,3 +53,6 @@ void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id);
 void printTarefasPessoa(List l, TipoTarefa *tarefa);
 int verificaID(List l, TipoTarefa *tarefa);
 void imprime_lista(List l);
+
+
+List eliminaTarefa(List l);
