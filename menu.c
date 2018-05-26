@@ -11,6 +11,7 @@
 int menu(){
     int totalTarefas = 0;
     int comando;
+    int input;
     char *flag = "n";
     List listaTarefas, novo, listaToDo, listaDoing, listaDone;
     listaTarefas = NULL;
@@ -70,7 +71,33 @@ int menu(){
                 printTarefasPessoa(listaTarefas, &novo->tarefa);                                    /*esta está incorreta */
                 break;
             case 6:
-                mover_tarefas(listaToDo, listaDoing, listaDone, &novo->tarefa);
+                system("cls");
+                printf("OPÇÕES:\n");
+                printf(" [1] Mover de \"To Do\" para \"Doing\".\n");
+                printf(" [2] Mover de \"Doing\" para \"To Do\".\n");
+                printf(" [3] Mover de \"Doing\" para \"Done\".\n");
+                printf(" [4] Mover de \"Done\" para \"Doing\".\n");
+                printf("\nSelecione um opção: ");
+                input = protInteiro();
+                if(input == 0){
+                    free(&novo->tarefa);
+                }
+                while(input < 1 || input > 4){
+                    printf("Comando desconhecido, tente novamente: ");
+                    input = protInteiro();
+                    if(input == 0){
+                        free(&novo->tarefa);
+                    }
+                    if(input == 1)
+                        mover_tarefas(listaToDo, listaDoing);
+                    else if(input == 2)
+                        mover_tarefas(listaDoing, listaToDo);
+                    else if(input == 3)
+                        mover_tarefas(listaDoing, listaDone);
+                    else
+                        mover_tarefas(listaDone, listaDoing);
+                }
+
                 break;
             case 7:
                 eliminaTarefa(listaToDo);

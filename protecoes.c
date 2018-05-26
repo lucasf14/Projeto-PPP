@@ -39,6 +39,12 @@ int protInteiro() {
                 free(inteiro);
                 return protInteiro();
             }
+            else if(inteiro[0] == '0'){
+                printf("Não pode introduzir números começados por 0.\n");
+                printf("Tente novamente: ");
+                free(inteiro);
+                return protInteiro();
+            }
             i++;
         }
         break;

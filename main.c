@@ -117,73 +117,79 @@ void verificaIdentificador(List l, TipoTarefa *tarefa){
     }
 }
 
+
 List eliminaTarefa(List l){
     int id;
-    List temp, prev;
-    temp = l;
+    List cur, prev;
+    cur = l;
     prev = NULL;
+    if(cur == NULL){
+        printf("Lista vazia!\n");
+        return;
+    }
     printf("Introduza o ID da tarefa a eliminar: ");
     id = protInteiro();
     if(id == 0){
-        menu();
+        return;
     }
-    while (temp->tarefa.identificador != id && temp->next != NULL){
-        prev = temp;
-        temp = temp->next;
-    }
-    if (temp->tarefa.identificador == id){
-        if (prev){
-            prev->next = temp->next;
+    while(cur != NULL){
+        if(cur->tarefa.identificador != id){
+            prev = cur;
+            cur = cur->next;
         }
         else{
-            l = temp->next;
+            if(cur == l){
+                free(cur);
+                l = NULL;
+                return l;
+            }
+            else{
+                prev->next = cur->next;
+                free(cur);
+            }
         }
-        free(temp);
+    }
+    if (cur->tarefa.identificador != id){
+        printf("Tarefa não encontrada! Tente novamente: ");
+        eliminaTarefa(l);
     }
     return l;
 }
 
 
-void mover_tarefas(List listaToDo, List listaDoing, List listaDone, TipoTarefa*tarefa){
-    int fase, identificador;
-    List ant, seg, atual;
-    ant=(List)malloc(sizeof(No));
-    seg=(List)malloc(sizeof(No));
-    atual=(List)malloc(sizeof(No));
-    printf("[1] Mover de To Do para Doing. \n[2] Mover de Doing para Done. \n");
-    fase=protInteiro();
-    if (fase==1){
-        identificador=verificaID(listaToDo, tarefa);
-        procura_lista(listaToDo, identificador, ant, seg, atual);
-        printf("Pessoa a atribuir: ");
-        listaToDo->tarefa.pessoa.nomePessoa = protString();
-        verificaPessoaFicheiro(tarefa);
-    }
+void mover_tarefas(List fonte, List destino){
+    int id;
+    List prev1, cur1;
+    List prev2, cur2;
+    prev1=NULL;
+    cur1 = fonte;
+    prev2=NULL;
+    cur2 = destino;
+    printf("Introduza o ID da tarefa a mover: ");
+    id = protInteiro();
+    procura_lista(fonte, id, prev1, cur1);
+    /*
+    identificador=verificaID(listaToDo, tarefa);
+    procura_lista(listaToDo, identificador, ant, seg, atual);
+    printf("Pessoa a atribuir: ");
+    listaToDo->tarefa.pessoa.nomePessoa = protString();
+    verificaPessoaFicheiro(tarefa);
+    */
 }
 
-void procura_lista(List l, int identificador, List ant, List seg, List atual){
-    ant=l;
-    if (ant->tarefa.identificador==identificador){
-        atual=ant;
+void procura_lista(List l, int identificador, List prev, List cur){
+    prev=NULL;
+    cur = l;
+    while(cur != NULL && cur->tarefa.identificador != identificador){
+        prev = cur;
+        cur = cur->next;
     }
-    else{
-        atual=l->next;
-        l=l->next;
-        seg=atual->next;
-        while(l!=NULL){
-            if(l->tarefa.identificador!=identificador){
-                atual=atual->next;
-                ant=ant->next;
-                seg=seg->next;
-                l=l->next;
-            }
-            else{
-                break;
-            }
-        }
+    printf("CENAS = %d", cur->tarefa.identificador);
+    if(cur != NULL && cur->tarefa.identificador != identificador){
+        cur = NULL;
+        printf("Tarefa não existente! CRL que faço agora?");
+        return;
     }
-    ant->next=seg;
-    atual->next=NULL;
 }
 
 
