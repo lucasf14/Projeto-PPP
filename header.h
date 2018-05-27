@@ -53,5 +53,5 @@ void imprime_lista(List l);
 void imprime_lista_pessoa(List listaToDo, List listaDoing, List listaDone, char *nome);
 
 
-void mover_tarefas(List fonte, List destino, int fase);
+List mover_tarefas(List fonte, List destino, int fase);
 List eliminaTarefa(List l);
