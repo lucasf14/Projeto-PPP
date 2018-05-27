@@ -30,14 +30,15 @@ typedef struct no{
 
 
 
-List addLista(List l, List node);
-List criaLista(List l, List node);
-List addListaOrdenado(List l, List node);
+List addListaFinal(List l, List node);
+List criaLista();
+List addListaOrdenado(List l, List node, int fase);
+
 int comparaMaiorPrioridade(List fonte, List destino);
-int comparaMaiorData(List data1, List data2);
+int comparaMaiorData(TipoData *data1, TipoData *data2);
 void procura_lista(List l, int identificador, List prev, List cur);
-void mover_tarefas(List fonte, List destino);
-void leTarefa(List l, TipoTarefa *tarefa);
+int comparaNome(List fonte, List destino);
+void leTarefa(List listaToDo,List listaDoing,List listaDone, TipoTarefa *tarefa);
 void printListas(List l);
 int protMenu();
 char *protString();
@@ -50,9 +51,8 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
 void le_data(TipoTarefa *tarefa);
 void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id);
-void printTarefasPessoa(List l, TipoTarefa *tarefa);
-int verificaID(List l, TipoTarefa *tarefa);
+int verificaID(List l);
 void imprime_lista(List l);
 
-
+List mover_tarefas(List fonte, List destino, int fase);
 List eliminaTarefa(List l);

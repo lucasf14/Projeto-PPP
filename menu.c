@@ -9,15 +9,13 @@
 
 
 int menu(){
-    int totalTarefas = 0;
     int comando;
     int input;
     char *flag = "n";
-    List listaTarefas, novo, listaToDo, listaDoing, listaDone;
-    listaTarefas = NULL;
-    listaToDo = NULL;
-    listaDoing = NULL;
-    listaDone = NULL;
+    List listaToDo, listaDoing, listaDone, novo;
+    listaToDo = criaLista();
+    listaDoing = criaLista();
+    listaDone = criaLista();
     setlocale(LC_ALL, "Portuguese");
     while(1){
         printf("MENU:\n");
@@ -25,7 +23,7 @@ int menu(){
         printf(" [2] Ver lista de tarefas.\n");
         printf(" [3] Ver lista de pessoas.\n");
         printf(" [4] Associar tarefa a pessoa.\n");
-        printf(" [5] Ver tarefas de uma pessoa.\n");
+        printf(" [5] Eliminar uma tarefa.\n");
         printf(" [6] Mover tarefas de fase.\n");
         printf(" [9] Limpar o ecrã.\n");
         printf(" [10] Sair do programa.\n");
@@ -42,16 +40,8 @@ int menu(){
                 break;
             case 1:
                 novo=(List)malloc(sizeof(No));
-                leTarefa(listaToDo, &novo->tarefa);
-                if (novo->tarefa.fase==1){
-                    if(listaToDo==NULL){
-                        listaToDo=criaLista(listaToDo, novo);
-                    }
-                    else{
-                        listaToDo=addListaOrdenado(listaToDo, novo);
-                    }
-                }
-                totalTarefas += 1;
+                leTarefa(listaToDo, listaDoing, listaDone, &novo->tarefa);
+                listaToDo=addListaOrdenado(listaToDo, novo, 1);
                 break;
             case 2:
                 printf("\nLista de tarefas \"To Do\":\n");
@@ -68,7 +58,27 @@ int menu(){
                 associaTarefa(listaToDo, &novo->tarefa, flag, novo->tarefa.identificador); /* Fazer para todas as listas */
                 break;
             case 5:
-                printTarefasPessoa(listaTarefas, &novo->tarefa);                                    /*esta está incorreta */
+                system("cls");
+                printf("OPÇÕES:\n");
+                printf(" [1] Eliminar tarefa de \"To Do\".\n");
+                printf(" [2] Eliminar tarefa de \"Doing\".\n");
+                printf(" [3] Eliminar tarefa de \"Done\".\n");
+                printf("\nSelecione um opção: ");
+                input = protInteiro();
+                if(input == 0)
+                    free(&novo->tarefa);
+                while(input < 1 || input > 3){
+                    printf("Comando desconhecido, tente novamente: ");
+                    input = protInteiro();
+                }
+                if(input == 0)
+                    free(&novo->tarefa);
+                if(input == 1)
+                    listaToDo = eliminaTarefa(listaToDo);
+                else if(input == 2)
+                    listaDoing = eliminaTarefa(listaDoing);
+                else
+                    listaDone = eliminaTarefa(listaDone);
                 break;
             case 6:
                 system("cls");
@@ -79,28 +89,22 @@ int menu(){
                 printf(" [4] Mover de \"Done\" para \"Doing\".\n");
                 printf("\nSelecione um opção: ");
                 input = protInteiro();
-                if(input == 0){
+                if(input == 0)
                     free(&novo->tarefa);
-                }
                 while(input < 1 || input > 4){
                     printf("Comando desconhecido, tente novamente: ");
                     input = protInteiro();
-                    if(input == 0){
-                        free(&novo->tarefa);
-                    }
-                    if(input == 1)
-                        mover_tarefas(listaToDo, listaDoing);
-                    else if(input == 2)
-                        mover_tarefas(listaDoing, listaToDo);
-                    else if(input == 3)
-                        mover_tarefas(listaDoing, listaDone);
-                    else
-                        mover_tarefas(listaDone, listaDoing);
                 }
-
-                break;
-            case 7:
-                eliminaTarefa(listaToDo);
+                if(input == 0)
+                    free(&novo->tarefa);
+                if(input == 1)
+                    listaDoing = mover_tarefas(listaToDo, listaDoing, 2);
+                else if(input == 2)
+                    listaToDo= mover_tarefas(listaDoing, listaToDo, 1);
+                else if(input == 3)
+                    listaDone = mover_tarefas(listaDoing, listaDone, 3);
+                else
+                    listaDoing = mover_tarefas(listaDone, listaDoing, 2);
                 break;
             case 9:
                  system("cls");
