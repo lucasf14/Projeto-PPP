@@ -9,14 +9,17 @@
 
 
 int menu(){
-    int comando;
+    int comando, max_tarefas;
     int input;
+    char *nome;
     char *flag = "n";
     List listaToDo, listaDoing, listaDone, novo;
     listaToDo = criaLista();
     listaDoing = criaLista();
     listaDone = criaLista();
     setlocale(LC_ALL, "Portuguese");
+    printf("Defina o número máximo de tarefas por pessoa: ");
+    max_tarefas = protInteiro();
     while(1){
         printf("MENU:\n");
         printf(" [1] Criar tarefa.\n");
@@ -25,6 +28,7 @@ int menu(){
         printf(" [4] Associar tarefa a pessoa.\n");
         printf(" [5] Eliminar uma tarefa.\n");
         printf(" [6] Mover tarefas de fase.\n");
+        printf(" [7] Visualizar as tarefas associadas à pessoa.\n");
         printf(" [9] Limpar o ecrã.\n");
         printf(" [10] Sair do programa.\n");
         printf("\nIntroduza o comando: ");
@@ -40,7 +44,7 @@ int menu(){
                 break;
             case 1:
                 novo=(List)malloc(sizeof(No));
-                leTarefa(listaToDo, listaDoing, listaDone, &novo->tarefa);
+                leTarefa(listaToDo, listaDoing, listaDone, &novo->tarefa, max_tarefas);
                 listaToDo=addListaOrdenado(listaToDo, novo, 1);
                 break;
             case 2:
@@ -55,7 +59,32 @@ int menu(){
                 listaPessoas();
                 break;
             case 4:
-                associaTarefa(listaToDo, &novo->tarefa, flag, novo->tarefa.identificador); /* Fazer para todas as listas */
+                system("cls");
+                printf("OPÇÕES:\n");
+                printf(" [1] Associar ou reassociar uma pessoa a uma tarefa a \"To Do\".\n");
+                printf(" [2] Ressociar uma pessoa a uma tarefa a \"Doing\".\n");
+                printf("\nSelecione um opção: ");
+                input = protInteiro();
+                if(input == 0)
+                    free(&novo->tarefa);
+                while(input < 1 || input > 2){
+                    printf("Comando desconhecido, tente novamente: ");
+                    input = protInteiro();
+                }
+                if(input == 1){
+                    if(listaToDo->next == NULL){
+                        printf("Lista vazia!\n");
+                        break;
+                    }
+                    associaTarefa(listaToDo, listaDoing, listaDone, &novo->tarefa, flag, novo->tarefa.identificador, max_tarefas);
+                }
+                else{
+                    if(listaDoing->next == NULL){
+                        printf("Lista vazia!\n");
+                        break;
+                    }
+                    associaTarefa(listaDoing, listaToDo, listaDone, &novo->tarefa, flag, novo->tarefa.identificador, max_tarefas);
+                }
                 break;
             case 5:
                 system("cls");
@@ -65,14 +94,10 @@ int menu(){
                 printf(" [3] Eliminar tarefa de \"Done\".\n");
                 printf("\nSelecione um opção: ");
                 input = protInteiro();
-                if(input == 0)
-                    free(&novo->tarefa);
                 while(input < 1 || input > 3){
                     printf("Comando desconhecido, tente novamente: ");
                     input = protInteiro();
                 }
-                if(input == 0)
-                    free(&novo->tarefa);
                 if(input == 1)
                     listaToDo = eliminaTarefa(listaToDo);
                 else if(input == 2)
@@ -87,24 +112,31 @@ int menu(){
                 printf(" [2] Mover de \"Doing\" para \"To Do\".\n");
                 printf(" [3] Mover de \"Doing\" para \"Done\".\n");
                 printf(" [4] Mover de \"Done\" para \"Doing\".\n");
+                printf(" [5] Mover de \"Done\" para \"Todo\".\n");
                 printf("\nSelecione um opção: ");
                 input = protInteiro();
                 if(input == 0)
                     free(&novo->tarefa);
-                while(input < 1 || input > 4){
+                while(input < 1 || input > 5){
                     printf("Comando desconhecido, tente novamente: ");
                     input = protInteiro();
                 }
-                if(input == 0)
-                    free(&novo->tarefa);
                 if(input == 1)
                     listaDoing = mover_tarefas(listaToDo, listaDoing, 2);
                 else if(input == 2)
                     listaToDo= mover_tarefas(listaDoing, listaToDo, 1);
                 else if(input == 3)
                     listaDone = mover_tarefas(listaDoing, listaDone, 3);
-                else
+                else if(input == 4)
                     listaDoing = mover_tarefas(listaDone, listaDoing, 2);
+                else
+                    listaToDo = mover_tarefas(listaDone, listaToDo, 1);
+                break;
+            case 7:
+                printf("Insira pessoa: ");
+                nome=protString();
+                verificaPessoaFicheiro(nome);
+                imprime_lista_pessoa(listaToDo, listaDoing, listaDone, nome);
                 break;
             case 9:
                  system("cls");

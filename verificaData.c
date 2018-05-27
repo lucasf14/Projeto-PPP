@@ -3,28 +3,17 @@
 #include "header.h"
 
 
-void verificaData(TipoData*data, TipoTarefa *tarefa){
+void verificaData(TipoData*data){
     int num_dias;
     printf("Ano:");
     data->ano = protInteiro();
-    if(data->ano == 0){
-        free(tarefa);
-        menu();
-    }
+
     printf("\n Escolha o mês: \n 1->janeiro \t 2->fevereiro \t 3->marco \n 4->abril \t 5->maio \t 6->junho \n 7->julho \t 8->agosto \t 9->setembro \n 10->outubro \t 11->novembro \t 12->dezembro \n");
     printf("Mês:");
     data->mes = protInteiro();
-    if(data->mes == 0){
-        free(tarefa);
-        menu();
-    }
     while(data->mes>12 || data->mes<1){
         printf("Mês inválido, tente novamente: ");
         data->mes = protInteiro();
-        if(data->mes == 0){
-            free(tarefa);
-            menu();
-        }
     }
     if(data->mes==1 || data->mes==3 || data->mes==5 || data->mes==7 || data->mes==8 || data->mes==10 || data->mes==12){
         printf("Dia:");
@@ -32,10 +21,6 @@ void verificaData(TipoData*data, TipoTarefa *tarefa){
         while(data->dia>31 || data->dia<1){
             printf("O mês tem no máximo 31 dias. Tente Novamente: ");
             data->dia = protInteiro();
-            if(data->dia == 0){
-                free(tarefa);
-                menu();
-            }
         }
     }
     if (data->mes==2){
@@ -47,33 +32,17 @@ void verificaData(TipoData*data, TipoTarefa *tarefa){
         }
         printf("Dia:");
         data->dia = protInteiro();
-        if(data->dia == 0){
-            free(tarefa);
-            menu();
-        }
         while(data->dia>num_dias || data->dia<1){
             printf("O mês tem no máximo %d dias. Tente Novamente: ", num_dias);
             data->dia = protInteiro();
-            if(data->dia == 0){
-                free(tarefa);
-                menu();
-            }
         }
     }
     if(data->mes==4 || data->mes==6 || data->mes==9 || data->mes==11){
         printf("Dia:");
         data->dia = protInteiro();
-        if(data->dia == 0){
-            free(tarefa);
-            menu();
-        }
         while(data->dia>30 || data->dia<1){
             printf("O mês tem no máximo 30 dias. Tente Novamente: ");
             data->dia = protInteiro();
-            if(data->dia == 0){
-                free(tarefa);
-                menu();
-            }
         }
     }
 }
@@ -97,11 +66,7 @@ void compara_datas(TipoTarefa*tarefa, TipoData*data){
         if (aux==0){
             printf("A data de prazo nao pode ser inferior à data de criacao.\n");
             printf("Data de Criacao:%d/%d/%d \nInsira nova data de prazo: \n", tarefa->data_criacao.dia, tarefa->data_criacao.mes, tarefa->data_criacao.ano);
-            verificaData(data, tarefa);
+            verificaData(data);
         }
     }
 }
-
-
-
-

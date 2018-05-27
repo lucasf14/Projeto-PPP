@@ -29,9 +29,6 @@ int protInteiro() {
     while (scanf(" %[^\n]", inteiro) ) {
         int i = 0;
         int len = strlen(inteiro);
-        if(strcmp(inteiro, "quit") == 0){
-            return 0;
-        }
         while (i < len) {
             if (inteiro[i] < '0' || inteiro[i] > '9') {
                 printf("Não pode introduzir letras ou símbolos.\n");
@@ -57,9 +54,6 @@ char *protString(){
     while (scanf(" %[^\n]", string) ) {
         int i = 0;
         int len = strlen(string);
-        if(strcmp(string, "quit") == 0){
-            return string;
-        }
         while (i < len) {
             if ((string[i] < 'a' || string[i] > 'z') && (string[i] < 'A' || string[i] > 'Z') && string[i] != 32) {
                 printf("Não pode introduzir números ou símbolos.\n");

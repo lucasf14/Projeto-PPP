@@ -13,21 +13,6 @@ List criaLista(){
     return l;
 }
 
-List addListaFinal(List l, List node){
-    List cur;
-    cur=(List)malloc(sizeof(No));
-    node->next=NULL;
-    cur=l;
-    if(cur==NULL){
-        cur=node;
-    }
-    while(cur->next!=NULL){
-        cur=cur->next;
-    }
-    cur->next=node;
-    return l;
-}
-
 List addListaOrdenado(List l, List node, int fase){
     int num;
     TipoData data1, data2;
@@ -37,13 +22,6 @@ List addListaOrdenado(List l, List node, int fase){
     ant=l;
     act=l->next;
     if(fase == 1){
-        num = comparaMaiorPrioridade(l, node);
-        if(num == -1){
-            node->next = l;
-            return node;
-        }
-        ant = l;
-        act = l->next;
         num = comparaMaiorPrioridade(act, node);
         while(num > -1 && act != NULL){
             ant = ant->next;
@@ -54,18 +32,23 @@ List addListaOrdenado(List l, List node, int fase){
         node->next = act;
     }
     if(fase == 2){
-        if(act->tarefa.pessoa.nomePessoa == '\0'){
-            act->tarefa.pessoa.nomePessoa = protString();
-        }
-        num = comparaNome(act, node);
-        if(num == -1){
-            node->next = l;
-            return node;
+        if(act == NULL){
+            if(node->tarefa.pessoa.nomePessoa == '\0'){
+                printf("Pessoa a atribuir: ");
+                node->tarefa.pessoa.nomePessoa = protString();
+                verificaPessoaFicheiro(node->tarefa.pessoa.nomePessoa);
+                ant->next = node;
+                node->next = act;
+            }
+            else{
+                ant->next = node;
+                node->next = act;
+            }
         }
         ant = l;
         act = l->next;
         num = comparaNome(act, node);
-        while(num > -1 && act != NULL){
+        while(num > -1 && act!= NULL){
             ant = ant->next;
             act = act->next;
             num = comparaNome(act, node);
@@ -74,35 +57,34 @@ List addListaOrdenado(List l, List node, int fase){
         node->next = act;
     }
     if(fase == 3){
-        data1.ano=act->tarefa.data_conclusao.ano;
-        data1.mes=act->tarefa.data_conclusao.mes;
-        data1.dia=act->tarefa.data_conclusao.dia;
-        data2.ano=node->tarefa.data_conclusao.ano;
-        data2.mes=node->tarefa.data_conclusao.mes;
-        data2.dia=node->tarefa.data_conclusao.dia;
-        num = comparaMaiorData(&data1, &data2);
-        if(num == -1){
-            node->next = l;
-            return node;
+        if(act == NULL){
+            printf("Insira a data de conclusão: \n");
+            verificaData(&data2);
+            ant->next = node;
+            node->next = act;
+            ant = l;
+            act = l->next;
+            act->tarefa.data_conclusao.ano=data2.ano;
+            act->tarefa.data_conclusao.mes=data2.mes;
+            act->tarefa.data_conclusao.dia= data2.dia;
+            num = comparaMaiorData(&data1, &data2);
         }
-        ant = ant->next;
-        act = act->next;
-        data1.ano=act->tarefa.data_conclusao.ano;
-        data1.mes=act->tarefa.data_conclusao.mes;
-        data1.dia=act->tarefa.data_conclusao.dia;
-        data2.ano=node->tarefa.data_conclusao.ano;
-        data2.mes=node->tarefa.data_conclusao.mes;
-        data2.dia=node->tarefa.data_conclusao.dia;
-        num = comparaMaiorData(&data1, &data2);
+        else{
+            printf("Insira a data de conclusão: \n");
+            verificaData(&data2);
+            data1.ano=act->tarefa.data_conclusao.ano;
+            data1.mes=act->tarefa.data_conclusao.mes;
+            data1.dia=act->tarefa.data_conclusao.ano;
+            act->tarefa.data_conclusao.ano=data2.ano;
+            act->tarefa.data_conclusao.mes=data2.mes;
+            act->tarefa.data_conclusao.dia= data2.dia;
+            num = comparaMaiorData(&data1, &data2);
+        }
+        ant = l;
+        act = l->next;
         while(num > -1 && act != NULL){
             ant = ant->next;
             act = act->next;
-            data1.ano=act->tarefa.data_conclusao.ano;
-            data1.mes=act->tarefa.data_conclusao.mes;
-            data1.dia=act->tarefa.data_conclusao.dia;
-            data2.ano=node->tarefa.data_conclusao.ano;
-            data2.mes=node->tarefa.data_conclusao.mes;
-            data2.dia=node->tarefa.data_conclusao.dia;
             num = comparaMaiorData(&data1, &data2);
         }
         ant->next = node;
@@ -116,17 +98,20 @@ int comparaNome(List fonte, List destino){
     if(fonte == NULL){
         return -1;
     }
-    if(strcmp(fonte ->tarefa.pessoa.nomePessoa, destino->tarefa.pessoa.nomePessoa) > 0){
+    /*printf("fonte ->tarefa.pessoa.nomePessoa = %s\n\ndestino->tarefa.pessoa.nomePessoa = %s", fonte ->tarefa.pessoa.nomePessoa, destino->tarefa.pessoa.nomePessoa);
+    */
+    if(strcmp(fonte ->tarefa.pessoa.nomePessoa, destino->tarefa.pessoa.nomePessoa) < 0){
         num = 0;
         return num;
     }
-    else if(strcmp(fonte ->tarefa.pessoa.nomePessoa, destino->tarefa.pessoa.nomePessoa) < 0){
+    else if(strcmp(fonte ->tarefa.pessoa.nomePessoa, destino->tarefa.pessoa.nomePessoa) > 0){
         num = -1;
         return num;
     }
     else{
         return 0;
     }
+    return 0;
 }
 
 int comparaMaiorPrioridade(List fonte, List destino){
@@ -212,8 +197,8 @@ List eliminaTarefa(List l){
         return l;
     }
     id = verificaID(l);
-    if(id == 0){
-        return l;
+    while(id == 0){
+        id = verificaID(l);
     }
     while(act != NULL && act->tarefa.identificador != id){
         ant = act;
@@ -235,31 +220,48 @@ List mover_tarefas(List fonte, List destino, int fase){
     int id;
     List ant, act;
     List nodenovo;
-    if(fonte->next == NULL){
-        printf("Lista vazia!\n");
-        return fonte;
-    }
-    nodenovo = (List)malloc(sizeof(No));
     ant=fonte;
     act = fonte->next;
-    id = verificaID(fonte);
-    while(act != NULL && act->tarefa.identificador != id){
-        ant = act;
-        act = act->next;
+    if(act == NULL){
+        printf("Lista vazia!\n");
+        return destino;
     }
-    nodenovo->tarefa.prioridade = act->tarefa.prioridade;
-    nodenovo->tarefa.identificador = act->tarefa.identificador;
-    nodenovo->tarefa.data_criacao.ano = act->tarefa.data_criacao.ano;
-    nodenovo->tarefa.data_criacao.mes = act->tarefa.data_criacao.mes;
-    nodenovo->tarefa.data_criacao.dia = act->tarefa.data_criacao.dia;
-    nodenovo->tarefa.pessoa.nomePessoa = act->tarefa.pessoa.nomePessoa;
-    nodenovo->tarefa.desc = act->tarefa.desc;
-    nodenovo->tarefa.data_prazo.ano = act->tarefa.data_prazo.ano;
-    nodenovo->tarefa.data_prazo.mes = act->tarefa.data_prazo.mes;
-    nodenovo->tarefa.data_prazo.dia = act->tarefa.data_prazo.dia;
-    nodenovo->next = NULL;
-    destino = addListaOrdenado(destino, nodenovo, fase);
-    ant->next = act->next;
+    nodenovo = (List)malloc(sizeof(No));
+    id = verificaID(fonte);
+    while(id == 0){
+        id = verificaID(fonte);
+    }
+    while(act != NULL){
+        if (act->tarefa.identificador != id){
+            ant = act;
+            act = act->next;
+        }
+        else{
+            nodenovo->tarefa.prioridade = act->tarefa.prioridade;
+            nodenovo->tarefa.identificador = act->tarefa.identificador;
+            nodenovo->tarefa.data_criacao.ano = act->tarefa.data_criacao.ano;
+            nodenovo->tarefa.data_criacao.mes = act->tarefa.data_criacao.mes;
+            nodenovo->tarefa.data_criacao.dia = act->tarefa.data_criacao.dia;
+            nodenovo->tarefa.pessoa.nomePessoa = act->tarefa.pessoa.nomePessoa;
+            nodenovo->tarefa.desc = act->tarefa.desc;
+            nodenovo->tarefa.data_prazo.ano = act->tarefa.data_prazo.ano;
+            nodenovo->tarefa.data_prazo.mes = act->tarefa.data_prazo.mes;
+            nodenovo->tarefa.data_prazo.dia = act->tarefa.data_prazo.dia;
+            nodenovo->tarefa.data_conclusao.ano = act->tarefa.data_conclusao.ano;
+            nodenovo->tarefa.data_conclusao.mes = act->tarefa.data_conclusao.mes;
+            nodenovo->tarefa.data_conclusao.dia = act->tarefa.data_conclusao.dia;
+            nodenovo->tarefa.fase = fase;
+            nodenovo->next = NULL;
+            destino = addListaOrdenado(destino, nodenovo, fase);
+        }
+    }
+    if(act->next==NULL){
+        ant->next=NULL;
+    }
+    else{
+        ant->next = act->next;
+    }
+
     free(act);
     return destino;
 }
@@ -274,6 +276,7 @@ void imprime_lista(List l){
     }
     else{
         while(aux!=NULL){
+            printf("Fase = %d", aux->tarefa.fase);
             if(aux->tarefa.pessoa.nomePessoa == '\0'){
                 printf("\nTarefa no. %d.\n Prioridade: %d\n Data de Criação: %d/%d/%d\n Descrição da tarefa: %s\n Pessoa responsável: Não tem\n Prazo: %d/%d/%d\n",
                     aux->tarefa.identificador,
@@ -285,9 +288,51 @@ void imprime_lista(List l){
                     aux->tarefa.data_prazo.dia,
                     aux->tarefa.data_prazo.mes,
                     aux->tarefa.data_prazo.ano);
-                aux=aux->next;
             }
             else{
+                printf("\nTarefa no. %d.\n Prioridade: %d\n Data de Criação: %d/%d/%d\n Descrição da tarefa: %s\n Pessoa responsável: %s\n Prazo: %d/%d/%d\n",
+                    aux->tarefa.identificador,
+                    aux->tarefa.prioridade,
+                    aux->tarefa.data_criacao.dia,
+                    aux->tarefa.data_criacao.mes,
+                    aux->tarefa.data_criacao.ano,
+                    aux->tarefa.desc,
+                    aux->tarefa.pessoa.nomePessoa,
+                    aux->tarefa.data_prazo.dia,
+                    aux->tarefa.data_prazo.mes,
+                    aux->tarefa.data_prazo.ano);
+                if(aux->tarefa.fase==2){
+                    printf(" Data Conclusão: A tarefa ainda não se encontra concluída.\n");
+                }
+                if(aux->tarefa.fase==3){
+                     printf(" Data Conclusão: %d/%d/%d\n",
+                        aux->tarefa.data_conclusao.dia,
+                        aux->tarefa.data_conclusao.mes,
+                        aux->tarefa.data_conclusao.ano);
+                }
+            }
+            aux=aux->next;
+        printf("___________________________________________\n");
+        }
+    }
+}
+
+void imprime_lista_pessoa(List listaToDo, List listaDoing, List listaDone, char *nome){
+    List aux;
+    int fase;
+    aux=listaToDo->next;
+    printf("\nLista de tarefas \"To Do\":\n");
+    for(fase=1; fase<4; fase++){
+        if (fase==2){
+            aux=listaDoing->next;
+            printf("\nLista de tarefas \"Doing\":\n");
+        }
+        if (fase==3){
+            aux=listaDone->next;
+            printf("\nLista de tarefas \"Done\":\n");
+        }
+        while(aux!=NULL){
+            if (strcmp(aux->tarefa.pessoa.nomePessoa,nome) == 0){
                 printf("\nTarefa no. %d.\n Prioridade: %d\n Data de Criação: %d/%d/%d\n Descrição da tarefa: %s\n Pessoa responsável: %s\n Prazo: %d/%d/%d\n",
                     aux->tarefa.identificador,
                     aux->tarefa.prioridade,
@@ -309,16 +354,16 @@ void imprime_lista(List l){
                     printf(" Data Conclusão: A tarefa ainda não se encontra concluída.\n");
 
                 }
-            aux=aux->next;
             }
-    printf("___________________________________________\n");
+        aux=aux->next;
+        printf("___________________________________________\n");
         }
     }
 }
 
-void verificaPessoaFicheiro(TipoTarefa *tarefa){
+void verificaPessoaFicheiro(char *nome){
     FILE *file = fopen("listapessoas.txt", "r");
-    char *nome;
+    char *nomeFich;
     int ret;
     char linha[MAX];
     if(file == NULL){
@@ -327,83 +372,64 @@ void verificaPessoaFicheiro(TipoTarefa *tarefa){
     }
     while (!feof(file)){
         fgets(linha, MAX, file);
-        nome = strtok(linha, "-");
-        ret = strcmp(nome, tarefa->pessoa.nomePessoa);
+        nomeFich = strtok(linha, "-");
+        ret = strcmp(nomeFich, nome);
         if(ret == 0){
             break;
         }
     }
     if(ret != 0){
         printf("A pessoa introduzida não existe. Tente novamente: ");
-        tarefa->pessoa.nomePessoa = protString();
-        verificaPessoaFicheiro(tarefa);
+        nome = protString();
+        verificaPessoaFicheiro(nome);
     }
     fclose(file);
 }
 
-void leTarefa(List listaToDo,List listaDoing,List listaDone, TipoTarefa *tarefa){
+void leTarefa(List listaToDo,List listaDoing,List listaDone, TipoTarefa *tarefa, int max_tarefas){
     TipoData data;
     char *flag = "n";
+    int auxiliar;
     printf("Identificador: ");
     tarefa->identificador = protInteiro();
     verificaIdentificador(listaToDo, tarefa);
     verificaIdentificador(listaDoing, tarefa);
     verificaIdentificador(listaDone, tarefa);
-    if(tarefa->identificador == 0){
-        free(tarefa);
-        return;
-    }
     printf("Insira data de criação: \n");
-    verificaData(&data, tarefa);
+    verificaData(&data);
     tarefa->data_criacao.ano=data.ano;
     tarefa->data_criacao.mes=data.mes;
     tarefa->data_criacao.dia=data.dia;
     printf("Prioridade (1 a 10): ");
     tarefa->prioridade = protInteiro();
-    if(tarefa->prioridade == 0){
-        free(tarefa);
-        return;
-    }
     while(tarefa->prioridade <= 0 || tarefa->prioridade > 10){
         printf("Prioridade inválida, tente novamente (1 a 10): ");
         tarefa->prioridade = protInteiro();
-        if(tarefa->prioridade == 0){
-            free(tarefa);
-            return;
-        }
     }
     printf("Descrição da tarefa: ");
     tarefa->desc = protString();
-    if(strcmp(tarefa->desc, "quit") == 0){
-        free(tarefa);
-        return;
-    }
     tarefa->fase = 1;
     printf("Deseja associar já a tarefa a uma pessoa? [s/n]: ");
     flag = protString();
-    if(strcmp(flag, "quit") == 0){
-        free(tarefa);
-        return;
-    }
     while(flag[0] != 's' && flag[0] != 'n'){
         printf("Resposta inválida, tente novamente [s/n]: ");
         flag = protString();
-        if(strcmp(flag, "quit") == 0){
-            free(tarefa);
-            return;
-        }
     }
     if(flag[0] == 's'){
         printf("Pessoa a atribuir: ");
         tarefa->pessoa.nomePessoa = protString();
-        if(strcmp(tarefa->pessoa.nomePessoa, "quit") == 0){
-            free(tarefa);
-            return;
+        verificaPessoaFicheiro(tarefa->pessoa.nomePessoa);
+        auxiliar=verificaMaxTarefasPessoas(listaToDo, listaDoing, listaDone, tarefa->pessoa.nomePessoa, max_tarefas);
+        while(auxiliar==0){
+            printf("Essa pessoa já tem um número máximo de tarefas atribuído. \n");
+            printf("Pessoa a atribuir: ");
+            tarefa->pessoa.nomePessoa = protString();
+            verificaPessoaFicheiro(tarefa->pessoa.nomePessoa);
+            auxiliar=verificaMaxTarefasPessoas(listaToDo, listaDoing, listaDone, tarefa->pessoa.nomePessoa, max_tarefas);
         }
-        verificaPessoaFicheiro(tarefa);
     }
     printf("Insira data de prazo: \n");
-    verificaData(&data, tarefa);
+    verificaData(&data);
     compara_datas(tarefa, &data);
     tarefa->data_prazo.ano=data.ano;
     tarefa->data_prazo.mes=data.mes;
@@ -411,19 +437,31 @@ void leTarefa(List listaToDo,List listaDoing,List listaDone, TipoTarefa *tarefa)
     printf("\n");
 }
 
-void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id){
+void associaTarefa(List l, List x, List y, TipoTarefa *tarefa, char *flag, int id, int max_tarefas){
+    List aux = l->next;
+    char *nome;
+    int auxiliar;
     if(flag[0] == 'n'){
         id = verificaID(l);
     }
-    while(l != NULL){
-        if(id != l->tarefa.identificador){
-            l=l->next;
+    while(aux != NULL){
+        if(id != aux->tarefa.identificador){
+            aux=aux->next;
         }
         else{
             printf("Pessoa a atribuir: ");
-            l->tarefa.pessoa.nomePessoa = protString();
-            verificaPessoaFicheiro(tarefa);
-            break;
+            nome = protString();
+            verificaPessoaFicheiro(nome);
+            auxiliar=verificaMaxTarefasPessoas(l, x, y, nome, max_tarefas);
+            while(auxiliar==0){
+                printf("Essa pessoa já tem um número máximo de tarefas atribuído. \n");
+                printf("Pessoa a atribuir: ");
+                nome = protString();
+                verificaPessoaFicheiro(nome);
+                auxiliar=verificaMaxTarefasPessoas(l, x, y, nome, max_tarefas);
+        }
+        aux->tarefa.pessoa.nomePessoa = nome;
+        break;
         }
     }
 }
@@ -437,43 +475,39 @@ int verificaID(List l){
         aux=aux->next;
     }
     if(id == aux->tarefa.identificador){
-        printf("wtf happening here\n");
         return id;
     }
     else{
         printf("Não encontrei nada nesta lista. Tente novamente! \n");
-        verificaID(l);
     }
     return 0;
 }
 
-
-void printTarefasPessoa(List l, TipoTarefa *tarefa){
-    int i = 0, ret;
-    printf("Introduza o nome da pessoa a verificar: ");
-    scanf(" %[^\n]s", tarefa->pessoa.nomePessoa);
-    verificaPessoaFicheiro(tarefa);
-    printf("Pessoa responsável: %s", tarefa->pessoa.nomePessoa);
-    printf("\n____________________\n");
-    while(l!=NULL){
-        ret = strcmp(l->tarefa.pessoa.nomePessoa, tarefa->pessoa.nomePessoa);
-        printf("\n\tPESSOA1: %s\n\n\tPESSOA2: %s", l->tarefa.pessoa.nomePessoa, tarefa->pessoa.nomePessoa);
-        if(ret == 0){
-            printf("\nTarefa no. %d.\nPrioridade: %d\nDescrição da tarefa: %s\nPrazo: %d/%d/%d\n",
-                   l->tarefa.identificador,
-                   l->tarefa.prioridade,
-                   l->tarefa.desc,
-                   l->tarefa.data_prazo.dia,
-                   l->tarefa.data_prazo.mes,
-                   l->tarefa.data_prazo.ano);
-            l=l->next;
-            i+= 1;
+int verificaMaxTarefasPessoas(List l, List x, List y, char *nome, int max_tarefas){
+    int num=0;
+    int fase;
+    List aux;
+    aux=l->next;
+    for(fase=1; fase<4; fase++){
+        if (fase==2){
+            aux=x->next;
         }
-        else{
-            l=l->next;
+        if (fase==3){
+            aux=y->next;
+        }
+        while(aux!=NULL){
+            if(aux->tarefa.pessoa.nomePessoa != NULL){
+                if (strcmp(aux->tarefa.pessoa.nomePessoa, nome) == 0){
+                    num+=1;
+                }
+            }
+        aux=aux->next;
         }
     }
-    printf("____________________\nTotal de tarefas: %d\n\n", i);
+    if (num<max_tarefas){
+        return -1;
+    }
+    return 0;
 }
 
 void listaPessoas(){

@@ -30,29 +30,28 @@ typedef struct no{
 
 
 
-List addListaFinal(List l, List node);
 List criaLista();
 List addListaOrdenado(List l, List node, int fase);
 
 int comparaMaiorPrioridade(List fonte, List destino);
 int comparaMaiorData(TipoData *data1, TipoData *data2);
-void procura_lista(List l, int identificador, List prev, List cur);
 int comparaNome(List fonte, List destino);
-void leTarefa(List listaToDo,List listaDoing,List listaDone, TipoTarefa *tarefa);
-void printListas(List l);
+void leTarefa(List listaToDo,List listaDoing,List listaDone, TipoTarefa *tarefa, int max_tarefas);
 int protMenu();
 char *protString();
 int protInteiro();
 int menu();
 void listaPessoas();
-void verificaData(TipoData*data, TipoTarefa *tarefa);
+void verificaData(TipoData*data);
 void verificaIdentificador(List l, TipoTarefa *tarefa);
-void verificaPessoaFicheiro(TipoTarefa *tarefa);
+void verificaPessoaFicheiro(char *nome);
 void compara_datas(TipoTarefa*tarefa, TipoData*data);
-void le_data(TipoTarefa *tarefa);
-void associaTarefa(List l, TipoTarefa *tarefa, char *flag, int id);
+int verificaMaxTarefasPessoas(List l, List x, List y, char *nome, int max_tarefas);
+void associaTarefa(List l, List x, List y, TipoTarefa *tarefa, char *flag, int id, int max_tarefas);
 int verificaID(List l);
 void imprime_lista(List l);
+void imprime_lista_pessoa(List listaToDo, List listaDoing, List listaDone, char *nome);
+
 
 List mover_tarefas(List fonte, List destino, int fase);
 List eliminaTarefa(List l);
