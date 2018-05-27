@@ -122,15 +122,15 @@ int menu(){
                     input = protInteiro();
                 }
                 if(input == 1)
-                    listaDoing = mover_tarefas(listaToDo, listaDoing, 2);
+                    mover_tarefas(listaToDo, listaDoing, 2);
                 else if(input == 2)
-                    listaToDo= mover_tarefas(listaDoing, listaToDo, 1);
+                    mover_tarefas(listaDoing, listaToDo, 1);
                 else if(input == 3)
-                    listaDone = mover_tarefas(listaDoing, listaDone, 3);
+                    mover_tarefas(listaDoing, listaDone, 3);
                 else if(input == 4)
-                    listaDoing = mover_tarefas(listaDone, listaDoing, 2);
+                    mover_tarefas(listaDone, listaDoing, 2);
                 else
-                    listaToDo = mover_tarefas(listaDone, listaToDo, 1);
+                    mover_tarefas(listaDone, listaToDo, 1);
                 break;
             case 7:
                 printf("Insira pessoa: ");
